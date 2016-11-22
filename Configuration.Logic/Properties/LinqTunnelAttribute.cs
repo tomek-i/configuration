@@ -1,6 +1,6 @@
 using System;
 
-namespace TIConfiguration.Logic.Properties
+namespace TI.Configuration.Logic.Properties
 {
     /// <summary>
     /// Indicates that method is pure LINQ method, with postponed enumeration (like Enumerable.Select,

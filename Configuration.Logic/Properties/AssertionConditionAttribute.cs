@@ -1,6 +1,6 @@
 using System;
 
-namespace TIConfiguration.Logic.Properties
+namespace TI.Configuration.Logic.Properties
 {
     /// <summary>
     /// Indicates the condition parameter of the assertion method. The method itself should be

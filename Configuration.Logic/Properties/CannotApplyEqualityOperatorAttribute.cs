@@ -1,6 +1,6 @@
 using System;
 
-namespace TIConfiguration.Logic.Properties
+namespace TI.Configuration.Logic.Properties
 {
     /// <summary>
     /// Indicates that the value of the marked type (or its derivatives)

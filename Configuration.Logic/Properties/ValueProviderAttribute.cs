@@ -1,6 +1,6 @@
 using System;
 
-namespace TIConfiguration.Logic.Properties
+namespace TI.Configuration.Logic.Properties
 {
     /// <summary>
     /// For a parameter that is expected to be one of the limited set of values.

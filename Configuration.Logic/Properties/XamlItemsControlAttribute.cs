@@ -1,6 +1,6 @@
 using System;
 
-namespace TIConfiguration.Logic.Properties
+namespace TI.Configuration.Logic.Properties
 {
     /// <summary>
     /// XAML attribute. Indicates the type that has <c>ItemsSource</c> property and should be treated

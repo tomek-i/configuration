@@ -1,4 +1,4 @@
-namespace TIConfiguration.Logic.Properties
+namespace TI.Configuration.Logic.Properties
 {
     /// <summary>
     /// Specifies assertion type. If the assertion method argument satisfies the condition,
