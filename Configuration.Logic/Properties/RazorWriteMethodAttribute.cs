@@ -1,6 +1,6 @@
 using System;
 
-namespace TIConfiguration.Logic.Properties
+namespace TI.Configuration.Logic.Properties
 {
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class RazorWriteMethodAttribute : Attribute { }
