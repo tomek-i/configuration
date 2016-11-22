@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using TIConfiguration.Logic.API;
-using TIConfiguration.Logic.Properties;
+using TI.Configuration.Logic.API;
+using TI.Configuration.Logic.Properties;
 
-namespace TIConfiguration.Logic._internals.Abstracts
+namespace TI.Configuration.Logic.Abstracts
 {
     [Serializable]
     public abstract class ConfigurationBase : IConfiguration
