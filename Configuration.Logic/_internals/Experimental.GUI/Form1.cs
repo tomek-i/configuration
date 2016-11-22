@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace TIConfiguration.Logic._internals.Experimental.GUI
+namespace TI.Configuration.Logic._internals.Experimental.GUI
 {
     public partial class Form1 : Form
     {

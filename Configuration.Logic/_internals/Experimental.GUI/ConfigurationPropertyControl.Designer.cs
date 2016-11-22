@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TIConfiguration.Logic._internals.Experimental.GUI
+namespace TI.Configuration.Logic._internals.Experimental.GUI
 {
     partial class ConfigurationPropertyControl
     {

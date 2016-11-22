@@ -7,7 +7,7 @@
     <ProjectGuid>{22DCB108-AC62-4EB2-8037-1D2976980AAC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TIConfiguration.Logic</RootNamespace>
+    <RootNamespace>TI.Configuration.Logic</RootNamespace>
     <AssemblyName>TI.Configuration.Logic</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="_internals\Abstracts\ConfigurationBase.cs" />
+    <Compile Include="Abstracts\ConfigurationBase.cs" />
     <Compile Include="API\IConfiguration.cs" />
     <Compile Include="API\InternalConfigurationAttribute.cs" />
     <Compile Include="_internals\Experimental.GUI\ConfigurationTypeEditor.cs" />

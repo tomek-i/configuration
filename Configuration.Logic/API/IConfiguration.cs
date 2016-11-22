@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace TIConfiguration.Logic.API
+namespace TI.Configuration.Logic.API
 {
     //[TypeConverter(typeof(ConfigurationTypeConverter))]
     public interface IConfiguration: INotifyPropertyChanged

@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using TIConfiguration.Logic.API;
+using TI.Configuration.Logic.API;
 
-namespace TIConfiguration.Logic._internals.Experimental.GUI
+namespace TI.Configuration.Logic._internals.Experimental.GUI
 {
     public class ConfigurationTypeEditor : UITypeEditor
     {

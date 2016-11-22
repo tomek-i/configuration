@@ -1,4 +1,4 @@
-﻿namespace TIConfiguration.Logic.API
+﻿namespace TI.Configuration.Logic.API
 {
     public enum ConfigurationMode
     {
