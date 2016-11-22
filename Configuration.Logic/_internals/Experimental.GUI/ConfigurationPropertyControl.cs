@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Reflection;
 using System.Windows.Forms;
-using TIConfiguration.Logic.API;
+using TI.Configuration.Logic.API;
 
-namespace TIConfiguration.Logic._internals.Experimental.GUI
+namespace TI.Configuration.Logic._internals.Experimental.GUI
 {
     public partial class ConfigurationPropertyControl : UserControl
     {

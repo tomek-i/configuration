@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using TIConfiguration.Logic.API;
-using TIConfiguration.Logic._internals.Abstracts;
+using TI.Configuration.Logic.Abstracts;
+using TI.Configuration.Logic.API;
 
-namespace TIConfiguration.Logic._internals.Configs
+namespace TI.Configuration.Logic._internals.Configs
 {
     [InternalConfiguration]
     public sealed class MasterConfig : ConfigurationBase

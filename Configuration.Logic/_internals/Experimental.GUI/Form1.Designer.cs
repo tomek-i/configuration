@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
-using TIConfiguration.Logic.API;
-using TIConfiguration.Logic._internals.Configs;
+using TI.Configuration.Logic.API;
+using TI.Configuration.Logic._internals.Configs;
 
-namespace TIConfiguration.Logic._internals.Experimental.GUI
+namespace TI.Configuration.Logic._internals.Experimental.GUI
 {
     partial class Form1
     {

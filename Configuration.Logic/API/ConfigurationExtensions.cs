@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace TIConfiguration.Logic.API
+namespace TI.Configuration.Logic.API
 {
     public static class ConfigurationExtensions
     {
