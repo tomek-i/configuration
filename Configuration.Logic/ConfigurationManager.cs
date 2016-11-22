@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using TIConfiguration.Logic.API;
-using TIConfiguration.Logic._internals.Configs;
-using TISerializer.Logic.Serializers;
+using TI.Configuration.Logic.API;
+using TI.Configuration.Logic._internals.Configs;
+using TI.Serializer.Logic.Serializers;
 
-namespace TIConfiguration.Logic
+namespace TI.Configuration.Logic
 {
     //TODO: Split file system access from serialization
     public static class ConfigurationManager
@@ -98,6 +98,7 @@ namespace TIConfiguration.Logic
             {
                 var content = File.ReadAllText(filepath);
                 var loadedCfg = Serializer.Deserialize<T>(content);
+                Write(loadedCfg);
                 return loadedCfg;
             }
             if (updateAfterRead)
