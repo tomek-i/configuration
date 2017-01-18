@@ -11,6 +11,7 @@ namespace TI.Configuration.Logic._internals.Configs
         private string _modeName = "debug";
         private ConfigurationMode _currentMode = ConfigurationMode.Debug;
 
+        [Obsolete("we should get rid of the enum and just rely on the plain text within the configuration file when its written because i can run debug mode but write custom txt as release which then will confuse everything")]
         public ConfigurationMode CurrentMode
         {
             get { return _currentMode; }
