@@ -1,28 +1,17 @@
-﻿using System;
-using System.ComponentModel;
-using TI.Configuration.Logic.Abstracts;
+﻿using TI.Configuration.Logic.Abstracts;
 using TI.Configuration.Logic.API;
 
 namespace TI.Configuration.Logic._internals.Configs
 {
     [InternalConfiguration]
-    public sealed class MasterConfig : ConfigurationBase
+    internal sealed class MasterConfig : ConfigurationBase
     {
-        private string _modeName = "debug";
-        private ConfigurationMode _currentMode = ConfigurationMode.Debug;
+        public const string ConfigDirectory = @".\configs";
 
-        [Obsolete("we should get rid of the enum and just rely on the plain text within the configuration file when its written because i can run debug mode but write custom txt as release which then will confuse everything")]
-        public ConfigurationMode CurrentMode
-        {
-            get { return _currentMode; }
-            set
-            {
-                if (value == _currentMode) return;
-                _currentMode = value;
-                OnPropertyChanged();
-            }
-        }
-        public string ConfigDirectory { get; internal set; } = @".\configs";
+
+        private string _modeName = "debug";
+       
+        //public string ConfigDirectory { get; internal set; } = @".\configs";
 
         public string ModeName
         {
@@ -34,31 +23,5 @@ namespace TI.Configuration.Logic._internals.Configs
                 OnPropertyChanged();
             }
         }
-
-        #region Overrides of Configuration
-
-        protected override void OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            if (propertyChangedEventArgs.PropertyName == nameof(CurrentMode))
-            {
-                switch (CurrentMode)
-                {
-                    case ConfigurationMode.Debug:
-                    case ConfigurationMode.Release:
-                        ModeName = nameof(CurrentMode).ToLowerInvariant();
-                        break;
-                    case ConfigurationMode.Custom:
-                        ModeName = null;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                return;
-            }
-
-            base.OnPropertyChanged(sender, propertyChangedEventArgs);
-        }
-
-        #endregion
     }
 }

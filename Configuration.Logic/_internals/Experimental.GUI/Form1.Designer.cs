@@ -38,7 +38,6 @@ namespace TI.Configuration.Logic._internals.Experimental.GUI
             // 
             // configurationPropertyControl1
             // 
-            masterConfig1.CurrentMode = ConfigurationMode.Debug;
             masterConfig1.ModeName = "debug";
             this.configurationPropertyControl1.Configuration = masterConfig1;
             this.configurationPropertyControl1.Location = new System.Drawing.Point(94, 108);
