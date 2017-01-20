@@ -15,7 +15,5 @@ namespace TI.Configuration.Logic.API
         public InternalConfigurationAttribute():this("_internals","_")
         {
         }
-
-        //if class is decorated then this shoudl overwrite the modename to internal etc.
     }
 }
