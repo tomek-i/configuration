@@ -43,11 +43,11 @@
   <ItemGroup>
     <Compile Include="Abstracts\ConfigurationBase.cs" />
     <Compile Include="API\IConfiguration.cs" />
-    <Compile Include="API\InternalConfigurationAttribute.cs" />
+    <Compile Include="API\IConfigurationManager.cs" />
+    <Compile Include="InternalConfigurationAttribute.cs" />
     <Compile Include="_internals\Experimental.GUI\ConfigurationTypeEditor.cs" />
-    <Compile Include="API\ConfigurationExtensions.cs" />
+    <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="ConfigurationManager.cs" />
-    <Compile Include="API\ConfigurationMode.cs" />
     <Compile Include="_internals\Configs\MasterConfig.cs" />
     <Compile Include="_internals\Experimental.GUI\ConfigurationPropertyControl.cs">
       <SubType>UserControl</SubType>
