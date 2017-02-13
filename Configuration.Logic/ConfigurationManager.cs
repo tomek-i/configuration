@@ -7,7 +7,6 @@ using TISerializer.Logic.Serializers;
 
 namespace TIConfiguration.Logic
 {
-
     //TODO: Split file system access from serialization
     public static class ConfigurationManager
     {
@@ -28,13 +27,13 @@ namespace TIConfiguration.Logic
             };
 
             Config = Read<MasterConfig>();
-            
+
             if (Config.CurrentMode == ConfigurationMode.Custom && string.IsNullOrEmpty(Config.ModeName))
                 throw new ArgumentNullException(nameof(Config.ModeName),
                     "The parameter cannot be null if the mode is set to custom.");
         }
 
-        public static T Update<T>(Action<T> exp) where T : class,IConfiguration
+        public static T Update<T>(Action<T> exp) where T : class, IConfiguration
         {
             var cfg = Read<T>();
             exp.Invoke(cfg);
@@ -43,12 +42,11 @@ namespace TIConfiguration.Logic
                 throw new Exception("Could not write configuration.");
 
             return cfg;
-         }
-      
-        
+        }
+
+
         public static bool Write<T>(T instance) where T : IConfiguration
         {
-
             string filepath;
             string filename;
             if (instance.IsInternalConfiguration())
@@ -69,18 +67,22 @@ namespace TIConfiguration.Logic
                 if (subFolder != null)
                     Directory.CreateDirectory(subFolder);
             }
+
             using (TextWriter writer = new StreamWriter(File.OpenWrite(filepath)))
             {
                 writer.Write(Serializer.Serialize(instance));
             }
+
+
             return true;
         }
 
-        public static T Read<T>() where T : class,IConfiguration
+        public static T Read<T>(bool updateAfterRead) where T : class, IConfiguration
         {
             string filename, filepath;
             T defaultInstance = Activator.CreateInstance<T>();
-            var internalCfg = typeof (T).GetCustomAttribute(typeof (InternalConfigurationAttribute)) as InternalConfigurationAttribute;
+            var internalCfg =
+                typeof (T).GetCustomAttribute(typeof (InternalConfigurationAttribute)) as InternalConfigurationAttribute;
             if (internalCfg != null)
             {
                 filename = $"{internalCfg.FilePrefix}{defaultInstance.Name}.json";
@@ -98,12 +100,16 @@ namespace TIConfiguration.Logic
                 var loadedCfg = Serializer.Deserialize<T>(content);
                 return loadedCfg;
             }
-
-            if (!Write(defaultInstance))
-                throw new Exception();
+            if (updateAfterRead)
+                if (!Write(defaultInstance))
+                    throw new Exception();
 
             return defaultInstance;
         }
 
+        public static T Read<T>() where T : class, IConfiguration
+        {
+            return Read<T>(true);
+        }
     }
 }
