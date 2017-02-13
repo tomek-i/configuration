@@ -23,11 +23,7 @@ namespace TIConfiguration.Logic.API
             }
             return propertyAccess.Invoke(config.GetInternalConfig());
         }
-        public static object Get<T>(this T cfg, Func<T, object> action) where T : IConfiguration
-        {
-            return action.Invoke(cfg);
-        }
-
+       
 
         public static bool Write(this IConfiguration instance)
         {

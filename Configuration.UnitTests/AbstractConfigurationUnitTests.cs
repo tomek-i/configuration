@@ -5,22 +5,6 @@ using TIConfiguration.Logic._internals.Abstracts;
 
 namespace TIConfiguration.UnitTests
 {
-
-
-
-    [TestFixture]
-    public class ConfigurationExtensionsUnitTests
-    {
-        
-
-    }
-
-    [TestFixture]
-    public class ConfigurationManagerUnitTests
-    {
-        
-    }
-
     [TestFixture]
     public class AbstractConfigurationUnitTests
     {
