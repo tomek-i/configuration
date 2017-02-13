@@ -37,7 +37,7 @@ namespace TIConfiguration.UnitTests
             ConfigurationBase config = mock.Object;
          
             //ACT
-            string result = config.Name;
+            string result = config?.Name;
 
             //ASSERT
             StringAssert.Contains("Configuration",result);
