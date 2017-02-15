@@ -6,7 +6,7 @@ using TIConfiguration.Logic._internals.Abstracts;
 
 namespace TIConfiguration.UnitTests
 {
-    [TestFixture]
+    [TestFixture, Category("Integration Tests")]
     public class ConfigurationManagerIntegrationTests
     {
         [TearDown]
@@ -30,7 +30,7 @@ namespace TIConfiguration.UnitTests
         }
 
 
-        [Test]
+        [Test, Category("Integration Tests")]
         public void Update_Property_UpdatePersistsInFile()
         {
             //Arrange
@@ -44,7 +44,7 @@ namespace TIConfiguration.UnitTests
             Assert.IsTrue(ConfigurationManager.Read<RegularConfig>().Value == "new");
         }
 
-        [Test]
+        [Test, Category("Integration Tests")]
         public void Update_Property_ReturnsConfigWithUpdatedProperty()
         {
             //Arrange
@@ -57,7 +57,7 @@ namespace TIConfiguration.UnitTests
             Assert.IsTrue(updated.Value == "new");
         }
 
-        [Test]
+        [Test, Category("Integration Tests")]
         public void Write_InternalConfgiguration_ShouldreturnTrueIfSuccessful()
         {
             //ARRANGE
@@ -68,7 +68,7 @@ namespace TIConfiguration.UnitTests
             Assert.IsTrue(result);
         }
 
-        [Test]
+        [Test, Category("Integration Tests")]
         public void Write_InternalConfgiguration_ShouldBeInInternalFolder()
         {
             //ARRANGE
@@ -86,7 +86,7 @@ namespace TIConfiguration.UnitTests
             Assert.IsTrue(File.Exists(expectedFilename));
         }
 
-        [Test]
+        [Test, Category("Integration Tests")]
         public void Write_Confgiguration_ShouldBeInConfigModeFolder()
         {
             //ARRANGE
@@ -111,7 +111,7 @@ namespace TIConfiguration.UnitTests
         }
 
 
-        [Test]
+        [Test, Category("Integration Tests")]
         public void Read_Configuration_IfNotExistsCreate()
         {
             //ARRANGE
@@ -126,7 +126,7 @@ namespace TIConfiguration.UnitTests
             Assert.IsTrue(File.Exists(expectedFilename));
         }
 
-        [Test]
+        [Test, Category("Integration Tests")]
         public void Read_WhenFileNotExist_ReturnDefault()
         {
             //ARRANGE

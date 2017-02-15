@@ -78,22 +78,82 @@ namespace TIConfiguration.UnitTests
         }
 
 
-        [Test]
-        public void WriteTest()
+        [Test, Category("Integration Tests")]
+        public void Write_Configuration_FileExists()
         {
-            Assert.Fail();
+            RegularConfig cfg = new RegularConfig();
+            cfg.Write();
+            Assert.IsTrue(File.Exists("./configs/debug/RegularConfig.json"));
+        }
+        [Test, Category("Integration Tests")]
+        public void Write_Configuration_ReturnsTrue()
+        {
+            RegularConfig cfg = new RegularConfig();
+            var result = cfg.Write();
+
+            Assert.IsTrue(result);
         }
 
-        [Test]
-        public void RefreshTest()
+        [Test, Category("Integration Tests")]
+        public void Reload_ExistingCfgFile_ReturnsNewInstance()
         {
-            Assert.Fail();
+           RegularConfig actual = new RegularConfig();
+            actual.Value = "testvalue";
+            actual.Write();
+
+            var cfgUnderTest = actual.Reload<RegularConfig>();
+
+            Assert.AreNotSame(actual,cfgUnderTest);
+        }
+        [Test,Category("Integration Tests")]
+        public void Reload_ExistingCfgFile_InstanceReturnedHasCorrectValue()
+        {
+            new RegularConfig {Value = "testvalue"}.Write();
+
+            var cfgUnderTest = new RegularConfig().Reload<RegularConfig>();
+
+            Assert.AreEqual("testvalue",cfgUnderTest.Value);
+        }
+        [Test, Category("Integration Tests")]
+        public void Reload_NonExistingCfgFile_ReturnsSameInstance()
+        {
+            var cfg = new RegularConfig { Value = "testvalue" };
+            
+            var cfgUnderTest = cfg.Reload<RegularConfig>();
+
+            Assert.AreSame(cfg,cfgUnderTest);
         }
 
-        [Test]
-        public void UpdateTest()
+        [Test, Category("Integration Tests")]
+        public void Update_NonExistingCfgFile_WritesCfg()
         {
-            Assert.Fail();
+            var cfg = new RegularConfig();
+
+            cfg.Update();
+
+            Assert.IsTrue(File.Exists("./configs/debug/RegularConfig.json"));
         }
+        [Test, Category("Integration Tests")]
+        public void Update_ExistingCfgFile_OverWritesCfgWithNewValue()
+        {
+            var cfg = new RegularConfig();
+
+            cfg.Update<RegularConfig>(x=>x.Value = "NewValue");
+
+            var cfgUnderTest = new RegularConfig().Reload<RegularConfig>();
+            Assert.AreEqual("NewValue", cfgUnderTest.Value);
+        }
+        [Test, Category("Integration Tests")]
+        public void Update_ExistingCfgFile_SetsPropertyToNewValue()
+        {
+            var cfg = new RegularConfig();
+
+            cfg.Update<RegularConfig>(x => x.Value = "NewValue");
+
+            Assert.AreEqual("NewValue", cfg.Value);
+        }
+
+
+
     }
 }
