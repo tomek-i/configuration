@@ -71,35 +71,17 @@ namespace TIConfiguration.Logic.API
                 filename = instance.Name + ".json";
                 filepath = Path.Combine(ConfigurationManager.Config.ConfigDirectory, ConfigurationManager.Config.ModeName, filename);
             }
-            try
+            if (!Directory.Exists(Path.GetDirectoryName(filepath)))
             {
-                if (!Directory.Exists(Path.GetDirectoryName(filepath)))
-                {
-                    var subFolder = Path.GetDirectoryName(filepath);
-                    if (subFolder != null)
-                        Directory.CreateDirectory(subFolder);
-                }
+                var subFolder = Path.GetDirectoryName(filepath);
+                if (subFolder != null)
+                    Directory.CreateDirectory(subFolder);
             }
-            catch (Exception x)
+            using (TextWriter writer = new StreamWriter(File.OpenWrite(filepath)))
             {
-                
-                throw x;
-                return false;
+                writer.Write(ConfigurationManager.Serializer.Serialize(instance));
             }
-            try
-            {
-                using (TextWriter writer = new StreamWriter(File.OpenWrite(filepath)))
-                {
-                    writer.Write(ConfigurationManager.Serializer.Serialize(instance));
-                }
-            }
-            catch (Exception x)
-            {
-                
-                throw x;
-                return false;
-            }
-           
+
             return true;
 
 
