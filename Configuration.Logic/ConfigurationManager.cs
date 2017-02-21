@@ -1,41 +1,71 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
+using System.Linq.Expressions;
 using TI.Configuration.Logic.API;
 using TI.Configuration.Logic._internals.Configs;
 using TI.Serializer.Logic.Serializers;
 
 namespace TI.Configuration.Logic
 {
-    //TODO: Split file system access from serialization
-    public static class ConfigurationManager
+    public class ConfigurationManager : IConfigurationManager
     {
-        internal static readonly MasterConfig Config;
-        internal static readonly JsonSerializer Serializer;
+        private static ConfigurationManager _instance;
+        private static readonly JsonSerializer Serializer = new JsonSerializer();
 
-        static ConfigurationManager()
+        public IConfiguration MasterConfig { get; }
+
+        public static ConfigurationManager Instance => _instance ?? (_instance = new ConfigurationManager());
+
+        public static string DefaultPath => _internals.Configs.MasterConfig.ConfigDirectory;
+
+
+        internal ConfigurationManager()
         {
-            Serializer = new JsonSerializer();
-
-            Config = new MasterConfig
-            {
-#if DEBUG
-                CurrentMode = ConfigurationMode.Debug
-#else
-                CurrentMode = ConfigurationMode.Release
-#endif
-            };
-
-            Config = Read<MasterConfig>();
-
-            if (Config.CurrentMode == ConfigurationMode.Custom && string.IsNullOrEmpty(Config.ModeName))
-                throw new ArgumentNullException(nameof(Config.ModeName),
-                    "The parameter cannot be null if the mode is set to custom.");
+            IConfiguration temp = new MasterConfig();
+            Refresh(ref temp);
+            MasterConfig = temp;
+            //Config = Activator.CreateInstance<MasterConfig>().Refresh<MasterConfig>();
+            //Config = Read<MasterConfig>();
         }
 
-        public static T Update<T>(Action<T> exp) where T : class, IConfiguration
+        private void Refresh(ref IConfiguration cfg)
+        {
+            cfg = (IConfiguration) Read(cfg);
+        }
+
+
+        private object Read(IConfiguration instance, bool rewriteIfExists = false)
+        {
+            var filepath = instance.GetFilePath();
+            if (File.Exists(filepath))
+            {
+                var content = File.ReadAllText(filepath);
+                var loadedCfg = (IConfiguration) Serializer.Deserialize(content, instance.GetType());
+                
+                //forces to write new properties which havent been written to cfg yet
+                if (rewriteIfExists)
+                    Write(loadedCfg);
+
+                return loadedCfg;
+            }
+
+            if (!Write(instance))
+                throw new Exception();
+
+            return instance;
+        }
+
+        public T Read<T>(bool rewriteIfExists=true) where T : class, IConfiguration
+        {
+            T defaultInstance = Activator.CreateInstance<T>();
+            return Read(defaultInstance, rewriteIfExists) as T;
+        }
+
+        
+        public T Update<T>(Action<T> exp) where T : class, IConfiguration
         {
             var cfg = Read<T>();
+        
             exp.Invoke(cfg);
 
             if (!Write(cfg))
@@ -45,72 +75,16 @@ namespace TI.Configuration.Logic
         }
 
 
-        public static bool Write<T>(T instance) where T : IConfiguration
+        public bool Write<T>(T instance) where T : IConfiguration
         {
-            string filepath;
-            string filename;
-            if (instance.IsInternalConfiguration())
-            {
-                var internalCfg = instance.GetInternalConfig();
-                filename = $"{internalCfg.FilePrefix}{instance.Name}.json";
-                filepath = Path.Combine(Config.ConfigDirectory, internalCfg.Foldername, filename);
-            }
-            else
-            {
-                filename = instance.Name + ".json";
-                filepath = Path.Combine(Config.ConfigDirectory, Config.ModeName, filename);
-            }
+            string filepath = instance.CreateDirectoryIfNotExist();
 
-            if (!Directory.Exists(Path.GetDirectoryName(filepath)))
-            {
-                var subFolder = Path.GetDirectoryName(filepath);
-                if (subFolder != null)
-                    Directory.CreateDirectory(subFolder);
-            }
+            var serialized = Serializer.Serialize(instance);
 
             using (TextWriter writer = new StreamWriter(File.OpenWrite(filepath)))
-            {
-                writer.Write(Serializer.Serialize(instance));
-            }
-
+                writer.Write(serialized);
 
             return true;
-        }
-
-        public static T Read<T>(bool updateAfterRead) where T : class, IConfiguration
-        {
-            string filename, filepath;
-            T defaultInstance = Activator.CreateInstance<T>();
-            var internalCfg =
-                typeof (T).GetCustomAttribute(typeof (InternalConfigurationAttribute)) as InternalConfigurationAttribute;
-            if (internalCfg != null)
-            {
-                filename = $"{internalCfg.FilePrefix}{defaultInstance.Name}.json";
-                filepath = Path.Combine(Config.ConfigDirectory, internalCfg.Foldername, filename);
-            }
-            else
-            {
-                filename = defaultInstance.Name + ".json";
-                filepath = Path.Combine(Config.ConfigDirectory, Config.ModeName, filename);
-            }
-
-            if (File.Exists(filepath))
-            {
-                var content = File.ReadAllText(filepath);
-                var loadedCfg = Serializer.Deserialize<T>(content);
-                Write(loadedCfg);
-                return loadedCfg;
-            }
-            if (updateAfterRead)
-                if (!Write(defaultInstance))
-                    throw new Exception();
-
-            return defaultInstance;
-        }
-
-        public static T Read<T>() where T : class, IConfiguration
-        {
-            return Read<T>(true);
         }
     }
 }
