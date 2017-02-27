@@ -54,6 +54,7 @@
     <Compile Include="AbstractConfigurationUnitTests.cs" />
     <Compile Include="ConfigurationExtensionsUnitTests.cs" />
     <Compile Include="ConfigurationManagerIntegrationTests.cs" />
+    <Compile Include="ConfigurationManagerUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
