@@ -12,7 +12,7 @@ namespace TI.Configuration.Logic
         private static ConfigurationManager _instance;
         private static readonly JsonSerializer Serializer = new JsonSerializer();
 
-        public IConfiguration MasterConfig { get; }
+        public IConfiguration MasterConfig { get; private set; }
 
         public static ConfigurationManager Instance => _instance ?? (_instance = new ConfigurationManager());
 
@@ -85,6 +85,14 @@ namespace TI.Configuration.Logic
                 writer.Write(serialized);
 
             return true;
+        }
+
+        public static void Reset()
+        {
+            IConfiguration temp = new MasterConfig();
+            Instance.Refresh(ref temp);
+            Instance.MasterConfig = temp;
+
         }
     }
 }
