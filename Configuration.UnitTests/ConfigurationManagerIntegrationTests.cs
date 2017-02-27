@@ -1,8 +1,10 @@
 using System.IO;
+using System.Security;
 using NUnit.Framework;
-using TIConfiguration.Logic;
-using TIConfiguration.Logic.API;
-using TIConfiguration.Logic._internals.Abstracts;
+using TI.Configuration.Logic;
+using TI.Configuration.Logic.Abstracts;
+using TI.Configuration.Logic.API;
+
 
 namespace TIConfiguration.UnitTests
 {
@@ -29,29 +31,32 @@ namespace TIConfiguration.UnitTests
             public string Value { get; set; } = "old";
         }
 
+       
+
+        
 
         [Test, Category("Integration Tests")]
         public void Update_Property_UpdatePersistsInFile()
         {
             //Arrange
             Cleanup();
-            ConfigurationManager.Write(new RegularConfig() {Value = "old"});
+            ConfigurationManager.Instance.Write(new RegularConfig() {Value = "old"});
 
             //ACT
-            ConfigurationManager.Update<RegularConfig>(x => x.Value = "new");
+            ConfigurationManager.Instance.Update<RegularConfig>(x => x.Value = "new");
 
             //Assert
-            Assert.IsTrue(ConfigurationManager.Read<RegularConfig>().Value == "new");
+            Assert.IsTrue(ConfigurationManager.Instance.Read<RegularConfig>().Value == "new");
         }
 
         [Test, Category("Integration Tests")]
         public void Update_Property_ReturnsConfigWithUpdatedProperty()
         {
             //Arrange
-            ConfigurationManager.Write(new RegularConfig() {Value = "old"});
+            ConfigurationManager.Instance.Write(new RegularConfig() {Value = "old"});
 
             //ACT
-            var updated = ConfigurationManager.Update<RegularConfig>(x => x.Value = "new");
+            var updated = ConfigurationManager.Instance.Update<RegularConfig>(x => x.Value = "new");
 
             //Assert
             Assert.IsTrue(updated.Value == "new");
@@ -63,7 +68,7 @@ namespace TIConfiguration.UnitTests
             //ARRANGE
             InternalConfig cfg = new InternalConfig();
             //ACT
-            var result = ConfigurationManager.Write(cfg);
+            var result = ConfigurationManager.Instance.Write(cfg);
             //ASSERT
             Assert.IsTrue(result);
         }
@@ -77,7 +82,7 @@ namespace TIConfiguration.UnitTests
 
             InternalConfig cfg = new InternalConfig();
             //ACT
-            if (!ConfigurationManager.Write(cfg))
+            if (!ConfigurationManager.Instance.Write(cfg))
             {
                 Assert.Fail("Probably couldn't write to hdd");
             }
@@ -101,7 +106,7 @@ namespace TIConfiguration.UnitTests
 
             RegularConfig cfg = new RegularConfig();
             //ACT
-            if (!ConfigurationManager.Write(cfg))
+            if (!ConfigurationManager.Instance.Write(cfg))
             {
                 Assert.Fail("Probably couldn't write to hdd");
             }
@@ -120,7 +125,7 @@ namespace TIConfiguration.UnitTests
             string expectedFilename = $"./configs/{att.Foldername}/{att.FilePrefix}{nameof(InternalConfig)}.json";
 
             //ACT
-            ConfigurationManager.Read<InternalConfig>();
+            ConfigurationManager.Instance.Read<InternalConfig>();
 
             //ASSERT
             Assert.IsTrue(File.Exists(expectedFilename));
@@ -134,7 +139,7 @@ namespace TIConfiguration.UnitTests
             
             InternalConfig defaultConfig = new InternalConfig();
             //ACT
-            var result = ConfigurationManager.Read<InternalConfig>();
+            var result = ConfigurationManager.Instance.Read<InternalConfig>();
 
             //ASSERT
             Assert.AreEqual(defaultConfig.TestValue, result.TestValue);
