@@ -1,6 +1,6 @@
 using System;
 
-namespace TI.Configuration.Logic.API
+namespace TI.Configuration.Logic
 {
     [AttributeUsage(AttributeTargets.Class|AttributeTargets.Struct,Inherited = false)]
     public sealed class InternalConfigurationAttribute : Attribute
