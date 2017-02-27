@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq.Expressions;
-using TI.Configuration.Logic.API;
 
-namespace TI.Configuration.Logic
+namespace TI.Configuration.Logic.API
 {
     public interface IConfigurationManager
     {
