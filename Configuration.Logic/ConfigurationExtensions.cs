@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using TI.Configuration.Logic.API;
 using TI.Configuration.Logic._internals.Configs;
 
-namespace TI.Configuration.Logic.API
+namespace TI.Configuration.Logic
 {
     public static class ConfigurationExtensions
     {
@@ -27,12 +28,7 @@ namespace TI.Configuration.Logic.API
             return propertyAccess.Invoke(config.GetInternalConfig());
         }
 
-        [Obsolete("Not required, can access property directly?")]
-        public static TRet Get<T,TRet>(this T cfg, Func<T, TRet> action) where T : IConfiguration
-        {
-            return action.Invoke(cfg);
-        }
-
+        
 
         public static string CreateDirectoryIfNotExist(this IConfiguration cfg)
         {
