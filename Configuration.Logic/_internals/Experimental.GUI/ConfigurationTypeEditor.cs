@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
@@ -8,6 +9,7 @@ using TI.Configuration.Logic.API;
 
 namespace TI.Configuration.Logic._internals.Experimental.GUI
 {
+    [ExcludeFromCodeCoverage]
     public class ConfigurationTypeEditor : UITypeEditor
     {
         private IWindowsFormsEditorService _editorService;

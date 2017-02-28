@@ -62,6 +62,7 @@ namespace TIConfiguration.UnitTests
             Assert.IsTrue(updated.Value == "new");
         }
 
+        
         [Test, Category("Integration Tests")]
         public void Write_InternalConfgiguration_ShouldreturnTrueIfSuccessful()
         {

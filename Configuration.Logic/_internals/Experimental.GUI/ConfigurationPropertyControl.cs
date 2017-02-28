@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Reflection;
@@ -8,6 +9,7 @@ using TI.Configuration.Logic.API;
 
 namespace TI.Configuration.Logic._internals.Experimental.GUI
 {
+    [ExcludeFromCodeCoverage]
     public partial class ConfigurationPropertyControl : UserControl
     {
         private IConfiguration _configuration;
