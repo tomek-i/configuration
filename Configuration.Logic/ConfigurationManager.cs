@@ -50,7 +50,7 @@ namespace TI.Configuration.Logic
             }
 
             if (!Write(instance))
-                throw new Exception();
+                throw new Exception("Could not write configuration.");
 
             return instance;
         }
