@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq.Expressions;
 using TI.Configuration.Logic.API;
 using TI.Configuration.Logic._internals.Configs;
-using TI.Serializer.Logic.Serializers;
+using TISerializer.Logic.Serializers;
 
 namespace TI.Configuration.Logic
 {
