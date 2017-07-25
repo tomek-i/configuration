@@ -31,6 +31,8 @@ namespace TIConfiguration.UnitTests
         [Test]
         public void Constructor_InternalConfigurationDoesNotExist_WritesToFileSystem()
         {
+          
+
             //ARRANGE
             const string expectedPath = ".\\configs\\_internals\\_MasterConfig.json";
             if (File.Exists(expectedPath))

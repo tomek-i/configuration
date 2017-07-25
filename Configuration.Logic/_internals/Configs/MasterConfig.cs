@@ -1,27 +1,26 @@
 ﻿using TI.Configuration.Logic.Abstracts;
-using TI.Configuration.Logic.API;
 
 namespace TI.Configuration.Logic._internals.Configs
 {
+
     [InternalConfiguration]
-    internal sealed class MasterConfig : ConfigurationBase
+    public sealed class MasterConfig : ConfigurationBase
     {
         public const string ConfigDirectory = @".\configs";
-
-
         private string _modeName = "debug";
-       
-        //public string ConfigDirectory { get; internal set; } = @".\configs";
-
+        
         public string ModeName
         {
             get { return _modeName?.ToLowerInvariant(); }
             set
             {
-                if (value == _modeName) return;
-                _modeName = value;
-                OnPropertyChanged();
+                SetValue(nameof(ModeName), ref _modeName, ref value, ()=> { /*(De-)Serialize again? or call UI updates?*/ });
             }
+        }
+
+        public new MasterConfig Default()
+        {
+            return new MasterConfig() { ModeName = "debug" };
         }
     }
 }

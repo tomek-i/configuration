@@ -1,51 +1,38 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using TI.Configuration.Logic._internals.Configs;
 using TI.Configuration.Logic.API;
-using TI.Configuration.Logic.Properties;
 
 namespace TI.Configuration.Logic.Abstracts
 {
     [Serializable]
-    public abstract class ConfigurationBase : IConfiguration
+    public abstract class ConfigurationBase : 
+        PropertyChangedNotificationClass,
+        IConfiguration
     {
-        [ExcludeFromCodeCoverage]
-        public event PropertyChangedEventHandler PropertyChanged;
+       
         public string Name => GetType().Name;
-
-        [ExcludeFromCodeCoverage]
         public DateTime Created { get; }
-        [ExcludeFromCodeCoverage]
-        public DateTime Changed { get; private set; }
 
-        [NotifyPropertyChangedInvocator]
-        [ExcludeFromCodeCoverage]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+      
         protected ConfigurationBase()
         {
-            Created = DateTime.Now;
-            PropertyChanged += OnPropertyChanged;
-        }
-        [ExcludeFromCodeCoverage]
-        protected virtual void OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            Changed = DateTime.Now;
+             Created = DateTime.Now;
         }
 
+        public virtual ConfigurationBase Default()
+        {
+            return null;
+        }
+        protected override void OnPropertyChanged(string propertyName, Action onChanged = null)
+        {
+            base.OnPropertyChanged(propertyName, onChanged);
+        }
         #region Overrides of Object
-        [ExcludeFromCodeCoverage]
         public override string ToString()
         {
             return Name;
         }
-
         #endregion
-
-        
     }
 }

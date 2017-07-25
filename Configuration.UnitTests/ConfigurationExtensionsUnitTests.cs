@@ -42,6 +42,7 @@ namespace TIConfiguration.UnitTests
 
         [Test] public void GetFilePath_NotInternalCfg_ReturnCorrectFolderandFilename()
         {
+
             //ARRANGE
             IConfiguration cfg = GetDefaultInstanceOf<NotInternalCfg>();
             string expected = $"\\debug\\{nameof(NotInternalCfg)}.json";
