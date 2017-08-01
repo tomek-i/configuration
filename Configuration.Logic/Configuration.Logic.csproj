@@ -51,16 +51,7 @@
     <Compile Include="Abstracts\PropertyChangedNotificationClass.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="ConfigurationManager.cs" />
-    <Compile Include="GUI\Base\JimenaConfiConfigurationDisplayBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\JimenaConfigDisplay.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\JimenaConfigDisplay.Designer.cs">
-      <DependentUpon>JimenaConfigDisplay.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_internals\Configs\JimenaConfi.cs" />
+    <Compile Include="API\INeedConfigUpdates.cs" />
     <Compile Include="_internals\Configs\MasterConfig.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,11 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\DataSources\TI.Configuration.Logic.ConfigurationExperiment.datasource" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="GUI\JimenaConfigDisplay.resx">
-      <DependentUpon>JimenaConfigDisplay.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

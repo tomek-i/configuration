@@ -10,10 +10,6 @@ using System.Linq;
 
 namespace TI.Configuration.Logic
 {
-    public interface INeedConfigUpdates
-    {
-        void OnConfigurationUpdate<T>(T instance) where T : ConfigurationBase;
-    }
     //TODO: here we need
     public class ConfigurationManager : IConfigurationManager
     {

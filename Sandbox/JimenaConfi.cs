@@ -2,7 +2,6 @@
 
 namespace TI.Configuration.Logic._internals.Configs
 {
-    [System.Obsolete("This class has been just used for proof of concept to auto subscribe and update subscribers on change")]
     public sealed class JimenaConfi : ConfigurationBase
     {
         string name;
