@@ -2,11 +2,11 @@
 using System.IO;
 using TI.Configuration.Logic.API;
 using TI.Configuration.Logic._internals.Configs;
-using TISerializer.Logic.Serializers;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using TI.Configuration.Logic.Abstracts;
 using System.Linq;
+using TI.Serializer.Logic.Serializers;
 
 namespace TI.Configuration.Logic
 {
