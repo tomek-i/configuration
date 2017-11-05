@@ -46,7 +46,7 @@ namespace TI.Configuration.Logic
         }
         internal ConfigurationManager()
         {
-            IConfiguration temp = new MasterConfig();
+            IConfiguration temp = new MasterConfig().Default();
             Refresh(ref temp);
             MasterConfig = temp;
         }
