@@ -3,6 +3,9 @@ using System.Windows.Forms;
 
 namespace TI.Configuration.Logic.API
 {
+    /// <summary>
+    /// Configuration Manager API
+    /// </summary>
     public interface IConfigurationManager
     {
         IConfiguration MasterConfig { get; }
@@ -11,6 +14,7 @@ namespace TI.Configuration.Logic.API
         bool Write<T>(T instance) where T : IConfiguration;
         void MapToDisplay<TConfig, TDisplay>() where TConfig : IConfiguration
                                                where TDisplay:Control;
+
         Control GetMappedDisplay<TConfig>() where TConfig : IConfiguration;
     }
 }
