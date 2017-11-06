@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using TI.Configuration.Logic.Abstracts;
 using System.Linq;
+using System.Threading;
 using TI.Serializer.Logic.Serializers;
 
 namespace TI.Configuration.Logic
@@ -17,10 +18,11 @@ namespace TI.Configuration.Logic
     /// </summary>
     public class ConfigurationManager : IConfigurationManager
     {
-        private static IDictionary<Type, ISet<INeedConfigUpdates>> watchers;
+        static readonly object _writeLock = new object();
+        private static readonly IDictionary<Type, ISet<INeedConfigUpdates>> Watchers;
         private static readonly JsonSerializer Serializer;
         private static ConfigurationManager _instance;
-        private static Dictionary<Type, Type> register;
+        private static readonly Dictionary<Type, Type> Register;
         
         /// <summary>
         /// Default path where configuration files are being stored.
@@ -40,9 +42,9 @@ namespace TI.Configuration.Logic
         #region ctor
         static ConfigurationManager()
         {
-            watchers =  new Dictionary<Type, ISet<INeedConfigUpdates>>();
+            Watchers =  new Dictionary<Type, ISet<INeedConfigUpdates>>();
             Serializer = new JsonSerializer();
-            register = new Dictionary<Type, Type>();
+            Register = new Dictionary<Type, Type>();
         }
         internal ConfigurationManager()
         {
@@ -60,10 +62,10 @@ namespace TI.Configuration.Logic
         public void AddWatcher<T>(INeedConfigUpdates watcher)where T: IConfiguration
         {
             var t = typeof(T);
-            if (!watchers.ContainsKey(t))
-                watchers.Add(t, new HashSet<INeedConfigUpdates>());
+            if (!Watchers.ContainsKey(t))
+                Watchers.Add(t, new HashSet<INeedConfigUpdates>());
 
-            watchers[t].Add(watcher);
+            Watchers[t].Add(watcher);
         }
 
         
@@ -92,9 +94,20 @@ namespace TI.Configuration.Logic
 
             var serialized = Serializer.Serialize(instance);
 
-            using (TextWriter writer = new StreamWriter(File.OpenWrite(filepath)))
-                writer.Write(serialized);
-
+            //DEV-88
+            //sometimes when writing it has an additional } at the end 
+            //this breaks the format when deserializing with json
+            //hopefully this delay fixes it, also maybe it will need a lock
+            //a delay was added to the READ 
+            lock (_writeLock)
+            {
+                
+                using (TextWriter writer = new StreamWriter(File.Create(filepath)))
+                {
+                    writer.Write(serialized);
+                }
+                Thread.Sleep(50);
+            }
             return true;
         }
 
@@ -118,7 +131,7 @@ namespace TI.Configuration.Logic
             where TConfig : IConfiguration 
             where TDisplay:Control
         {
-            register.Add(typeof(TConfig), typeof(TDisplay));
+            Register.Add(typeof(TConfig), typeof(TDisplay));
         }
 
         /// <summary>
@@ -128,7 +141,7 @@ namespace TI.Configuration.Logic
         /// <returns>Instance of an control</returns>
         public Control GetMappedDisplay<T>() where T:IConfiguration
         {
-            return Activator.CreateInstance(register[typeof(T)]) as Control;
+            return Activator.CreateInstance(Register[typeof(T)]) as Control;
         }
 
 
@@ -138,9 +151,9 @@ namespace TI.Configuration.Logic
         }
         private void ConfigChanged<T>(T instance) where T : ConfigurationBase
         {
-            var key = watchers.Keys.Where(x => x.Name == instance.GetType().Name).Single();
+            var key = Watchers.Keys.Single(x => x.Name == instance.GetType().Name);
 
-            foreach (var item in watchers[instance.GetType()])
+            foreach (var item in Watchers[instance.GetType()])
             {
                 item.OnConfigurationUpdate(instance);
             }
@@ -152,13 +165,23 @@ namespace TI.Configuration.Logic
             {
                 var content = File.ReadAllText(filepath);
                 var loadedCfg = (IConfiguration)Serializer.Deserialize(content, instance.GetType());
-                var b = loadedCfg as ConfigurationBase;
-                b.PropertyChanged += (sender, property) => {
-                    ConfigChanged(b);
-                };
+                var configurationBase = loadedCfg as ConfigurationBase;
+
+                if (configurationBase != null)
+                    configurationBase.PropertyChanged += (sender, property) => {
+                        ConfigChanged(configurationBase);
+                    };
+
                 //forces to write new properties which havent been written to cfg yet
                 if (rewriteIfExists)
+                {
+                    //DEV-88
+                    //sometimes when writing it has an additional } at the end 
+                    //this breaks the format when deserializing with json
+                    //hopefully this delay fixes it, also maybe it will need a lock
+                    Thread.Sleep(100);
                     Write(loadedCfg);
+                }
 
                 return loadedCfg;
             }
