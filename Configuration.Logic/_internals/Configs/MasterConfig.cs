@@ -1,4 +1,5 @@
 ﻿using TI.Configuration.Logic.Abstracts;
+using TI.Configuration.Logic.API;
 
 namespace TI.Configuration.Logic._internals.Configs
 {
@@ -20,11 +21,13 @@ namespace TI.Configuration.Logic._internals.Configs
             }
         }
 
-        public new MasterConfig Default()
+      
+
+        public override IConfiguration Default()
         {
             string modename;
 #if DEBUG
-            modename = "debug";      
+            modename = "debug";
 #else
             modename = "live";
 #endif

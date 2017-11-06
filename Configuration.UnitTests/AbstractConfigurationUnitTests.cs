@@ -10,7 +10,10 @@ namespace TIConfiguration.UnitTests
     {
         private class ConcreteConfiguration : ConfigurationBase
         {
-            
+            public override IConfiguration Default()
+            {
+                throw new System.NotImplementedException();
+            }
         }
 
         [Test]

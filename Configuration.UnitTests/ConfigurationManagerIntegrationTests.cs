@@ -2,6 +2,7 @@ using System.IO;
 using NUnit.Framework;
 using TI.Configuration.Logic;
 using TI.Configuration.Logic.Abstracts;
+using TI.Configuration.Logic.API;
 
 namespace TIConfiguration.UnitTests
 {
@@ -21,11 +22,21 @@ namespace TIConfiguration.UnitTests
         internal class InternalConfig : ConfigurationBase
         {
             public int TestValue { get; set; } = 123;
+
+            public override IConfiguration Default()
+            {
+                throw new System.NotImplementedException();
+            }
         }
 
         internal class RegularConfig : ConfigurationBase
         {
             public string Value { get; set; } = "old";
+
+            public override IConfiguration Default()
+            {
+                throw new System.NotImplementedException();
+            }
         }
 
        

@@ -6,5 +6,6 @@ namespace TI.Configuration.Logic.API
     {
         string Name { get; }
         DateTime Created { get; }
+        IConfiguration Default();
     }
 }

@@ -16,6 +16,11 @@ namespace TIConfiguration.UnitTests
         private class ConfigStub : ConfigurationBase
         {
             public string MyCustomStetting { get; set; }
+
+            public override IConfiguration Default()
+            {
+                throw new NotImplementedException();
+            }
         }
         private ConfigStub CreateConfig(string configValue)
         {

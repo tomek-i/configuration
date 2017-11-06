@@ -15,7 +15,7 @@ namespace Sandbox
         [STAThread]
         static void Main()
         {
-
+            var cfg = ConfigurationManager.Instance.Read<JimenaConfi>();
             ConfigurationManager.Instance.MapToDisplay<JimenaConfi, JimenaConfigDisplay>();
             
 

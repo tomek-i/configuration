@@ -19,10 +19,7 @@ namespace TI.Configuration.Logic.Abstracts
              Created = DateTime.Now;
         }
 
-        public virtual ConfigurationBase Default()
-        {
-            throw new Exception("You need to override this method.");
-        }
+        public abstract IConfiguration Default();
 
         protected override void OnPropertyChanged(string propertyName, Action onChanged = null)
         {

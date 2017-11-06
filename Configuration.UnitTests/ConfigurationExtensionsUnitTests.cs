@@ -21,18 +21,29 @@ namespace TIConfiguration.UnitTests
         public class NotInternalCfg : ConfigurationBase
         {
             public string Value { get; set; } = "old";
+
+            public override IConfiguration Default()
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [InternalConfiguration]
         public class InternalCfg : ConfigurationBase
         {
-
+            public override IConfiguration Default()
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        [InternalConfiguration("abc","123")]
+        [InternalConfiguration("abc", "123")]
         public class InternalCustomCfg : ConfigurationBase
         {
-
+            public override IConfiguration Default()
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public IConfiguration GetDefaultInstanceOf<T>() where T:ConfigurationBase, new()

@@ -73,7 +73,7 @@ namespace TI.Configuration.Logic
         public T Read<T>(bool rewriteIfExists=true) where T : class, IConfiguration
         {
             T defaultInstance = Activator.CreateInstance<T>();
-            return Read(defaultInstance, rewriteIfExists) as T;
+            return Read(defaultInstance.Default(), rewriteIfExists) as T;
         }
         public T Update<T>(Action<T> exp) where T : class, IConfiguration
         {
