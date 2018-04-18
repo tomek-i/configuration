@@ -23,7 +23,7 @@ namespace TI.Configuration.Logic
         private static readonly JsonSerializer Serializer;
         private static ConfigurationManager _instance;
         private static readonly Dictionary<Type, Type> Register;
-        
+
         /// <summary>
         /// Default path where configuration files are being stored.
         /// </summary>
@@ -42,7 +42,7 @@ namespace TI.Configuration.Logic
         #region ctor
         static ConfigurationManager()
         {
-            Watchers =  new Dictionary<Type, ISet<INeedConfigUpdates>>();
+            Watchers = new Dictionary<Type, ISet<INeedConfigUpdates>>();
             Serializer = new JsonSerializer();
             Register = new Dictionary<Type, Type>();
         }
@@ -59,7 +59,7 @@ namespace TI.Configuration.Logic
         /// </summary>
         /// <typeparam name="T">The configuration to watch out for changes.</typeparam>
         /// <param name="watcher">the object which needs to be notified.</param>
-        public void AddWatcher<T>(INeedConfigUpdates watcher)where T: IConfiguration
+        public void AddWatcher<T>(INeedConfigUpdates watcher) where T : IConfiguration
         {
             var t = typeof(T);
             if (!Watchers.ContainsKey(t))
@@ -68,11 +68,11 @@ namespace TI.Configuration.Logic
             Watchers[t].Add(watcher);
         }
 
-        
 
-       
-      
-        public T Read<T>(bool rewriteIfExists=true) where T : class, IConfiguration
+
+
+
+        public T Read<T>(bool rewriteIfExists = true) where T : class, IConfiguration
         {
             T defaultInstance = Activator.CreateInstance<T>();
             return Read(defaultInstance.Default(), rewriteIfExists) as T;
@@ -80,7 +80,7 @@ namespace TI.Configuration.Logic
         public T Update<T>(Action<T> exp) where T : class, IConfiguration
         {
             var cfg = Read<T>();
-        
+
             exp.Invoke(cfg);
 
             if (!Write(cfg))
@@ -101,12 +101,25 @@ namespace TI.Configuration.Logic
             //a delay was added to the READ 
             lock (_writeLock)
             {
-                
-                using (TextWriter writer = new StreamWriter(File.Create(filepath)))
+                int attempts = 0;
+                RETRY:
+                try
                 {
-                    writer.Write(serialized);
+                    using (TextWriter writer = new StreamWriter(File.Create(filepath)))
+                    {
+                        writer.Write(serialized);
+                    }
                 }
-                Thread.Sleep(50);
+                catch (Exception exception)
+                {
+                    attempts++;
+                    Thread.Sleep(50);
+                    if (attempts < 3)
+                        goto RETRY;
+                    else
+                        throw exception;
+
+                }
             }
             return true;
         }
@@ -127,9 +140,9 @@ namespace TI.Configuration.Logic
         /// </summary>
         /// <typeparam name="TConfig"></typeparam>
         /// <typeparam name="TDisplay"></typeparam>
-        public void MapToDisplay<TConfig,TDisplay>() 
-            where TConfig : IConfiguration 
-            where TDisplay:Control
+        public void MapToDisplay<TConfig, TDisplay>()
+            where TConfig : IConfiguration
+            where TDisplay : Control
         {
             Register.Add(typeof(TConfig), typeof(TDisplay));
         }
@@ -139,7 +152,7 @@ namespace TI.Configuration.Logic
         /// </summary>
         /// <typeparam name="T">The configuraiton type which will be displayed</typeparam>
         /// <returns>Instance of an control</returns>
-        public Control GetMappedDisplay<T>() where T:IConfiguration
+        public Control GetMappedDisplay<T>() where T : IConfiguration
         {
             return Activator.CreateInstance(Register[typeof(T)]) as Control;
         }
@@ -168,7 +181,8 @@ namespace TI.Configuration.Logic
                 var configurationBase = loadedCfg as ConfigurationBase;
 
                 if (configurationBase != null)
-                    configurationBase.PropertyChanged += (sender, property) => {
+                    configurationBase.PropertyChanged += (sender, property) =>
+                    {
                         ConfigChanged(configurationBase);
                     };
 
