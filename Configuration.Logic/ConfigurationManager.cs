@@ -101,7 +101,7 @@ namespace TI.Configuration.Logic
             //a delay was added to the READ 
             lock (_writeLock)
             {
-                int attempts = 0;
+                int attempts = 1;
                 RETRY:
                 try
                 {
@@ -113,11 +113,15 @@ namespace TI.Configuration.Logic
                 catch (Exception exception)
                 {
                     attempts++;
-                    Thread.Sleep(50);
-                    if (attempts < 3)
+                    Thread.Sleep(50*attempts);
+                    if (attempts <= 5)
+                    {
                         goto RETRY;
+                    }
                     else
+                    {
                         throw exception;
+                    }
 
                 }
             }
