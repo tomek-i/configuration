@@ -18,6 +18,8 @@ namespace TI.Configuration.Logic
     /// </summary>
     public class ConfigurationManager : IConfigurationManager
     {
+        System.Threading.ReaderWriterLock rwl = new ReaderWriterLock();
+        
         static readonly object _writeLock = new object();
         private static readonly IDictionary<Type, ISet<INeedConfigUpdates>> Watchers;
         private static readonly JsonSerializer Serializer;
@@ -42,12 +44,14 @@ namespace TI.Configuration.Logic
         #region ctor
         static ConfigurationManager()
         {
+            
             Watchers = new Dictionary<Type, ISet<INeedConfigUpdates>>();
             Serializer = new JsonSerializer();
             Register = new Dictionary<Type, Type>();
         }
         internal ConfigurationManager()
         {
+            
             IConfiguration temp = new MasterConfig().Default();
             Refresh(ref temp);
             MasterConfig = temp;
@@ -94,11 +98,7 @@ namespace TI.Configuration.Logic
 
             var serialized = Serializer.Serialize(instance);
 
-            //DEV-88
-            //sometimes when writing it has an additional } at the end 
-            //this breaks the format when deserializing with json
-            //hopefully this delay fixes it, also maybe it will need a lock
-            //a delay was added to the READ 
+           
             lock (_writeLock)
             {
                 int attempts = 1;
