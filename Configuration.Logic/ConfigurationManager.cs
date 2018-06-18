@@ -19,7 +19,7 @@ namespace TI.Configuration.Logic
     public class ConfigurationManager : IConfigurationManager
     {
         System.Threading.ReaderWriterLock rwl = new ReaderWriterLock();
-        
+
         static readonly object _writeLock = new object();
         private static readonly IDictionary<Type, ISet<INeedConfigUpdates>> Watchers;
         private static readonly JsonSerializer Serializer;
@@ -44,14 +44,14 @@ namespace TI.Configuration.Logic
         #region ctor
         static ConfigurationManager()
         {
-            
+
             Watchers = new Dictionary<Type, ISet<INeedConfigUpdates>>();
             Serializer = new JsonSerializer();
             Register = new Dictionary<Type, Type>();
         }
         internal ConfigurationManager()
         {
-            
+
             IConfiguration temp = new MasterConfig().Default();
             Refresh(ref temp);
             MasterConfig = temp;
@@ -76,19 +76,30 @@ namespace TI.Configuration.Logic
 
 
 
-        public T Read<T>(bool rewriteIfExists = true) where T : class, IConfiguration
+        public T Read<T>() where T : class, IConfiguration
         {
             T defaultInstance = Activator.CreateInstance<T>();
-            return Read(defaultInstance.Default(), rewriteIfExists) as T;
+            return Read(defaultInstance.Default()) as T;
         }
         public T Update<T>(Action<T> exp) where T : class, IConfiguration
         {
             var cfg = Read<T>();
 
             exp.Invoke(cfg);
+            rwl.AcquireWriterLock(TimeSpan.FromSeconds(1));
+            try
+            {
+                Write(cfg);
+            }
+            catch (Exception x)
+            {
 
-            if (!Write(cfg))
-                throw new Exception("Could not write configuration.");
+                throw x;
+            }
+            finally
+            {
+                rwl.ReleaseWriterLock();
+            }
 
             return cfg;
         }
@@ -98,10 +109,12 @@ namespace TI.Configuration.Logic
 
             var serialized = Serializer.Serialize(instance);
 
-           
+
             lock (_writeLock)
             {
                 int attempts = 1;
+                rwl.AcquireWriterLock(TimeSpan.FromSeconds(1));
+
                 RETRY:
                 try
                 {
@@ -113,7 +126,7 @@ namespace TI.Configuration.Logic
                 catch (Exception exception)
                 {
                     attempts++;
-                    Thread.Sleep(50*attempts);
+                    Thread.Sleep(50 * attempts);
                     if (attempts <= 5)
                     {
                         goto RETRY;
@@ -123,6 +136,10 @@ namespace TI.Configuration.Logic
                         throw exception;
                     }
 
+                }
+                finally
+                {
+                    rwl.ReleaseWriterLock();
                 }
             }
             return true;
@@ -175,7 +192,7 @@ namespace TI.Configuration.Logic
                 item.OnConfigurationUpdate(instance);
             }
         }
-        private object Read(IConfiguration instance, bool rewriteIfExists = false)
+        private object Read(IConfiguration instance)
         {
             var filepath = instance.GetFilePath();
             if (File.Exists(filepath))
@@ -190,26 +207,26 @@ namespace TI.Configuration.Logic
                         ConfigChanged(configurationBase);
                     };
 
-                //forces to write new properties which havent been written to cfg yet
-                if (rewriteIfExists)
-                {
-                    //DEV-88
-                    //sometimes when writing it has an additional } at the end 
-                    //this breaks the format when deserializing with json
-                    //hopefully this delay fixes it, also maybe it will need a lock
-                    Thread.Sleep(100);
-                    Write(loadedCfg);
-                }
-
                 return loadedCfg;
             }
             else
             {
-                //TODO: file doesnt exist, the important part in 129 saying  b.PropertyChanged += (sender, property) => { is never executed which means the notification system doesnt work
-            }
+                instance = instance.Default();
+                rwl.AcquireWriterLock(TimeSpan.FromSeconds(1));
+                try
+                {
+                    Write(instance);
+                }
+                catch (Exception)
+                {
 
-            if (!Write(instance))
-                throw new Exception("Could not write configuration.");
+
+                }
+                finally
+                {
+                    rwl.ReleaseWriterLock();
+                }
+            }
 
             return instance;
         }
