@@ -7,10 +7,11 @@
     <ProjectGuid>{22DCB108-AC62-4EB2-8037-1D2976980AAC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TI.Configuration.Logic</RootNamespace>
-    <AssemblyName>TI.Configuration.Logic</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>TI.Configuration</RootNamespace>
+    <AssemblyName>TI.Configuration</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +53,7 @@
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="API\INeedConfigUpdates.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_internals\Configs\MasterConfig.cs" />
   </ItemGroup>
   <ItemGroup>
