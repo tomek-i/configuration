@@ -6,6 +6,15 @@ using System.Text;
 
 namespace Configuration.SQL
 {
+
+    //TODO: need to make common basis for manager
+
+    public enum ConfigurationManager
+    {
+        FileSystem = 0,
+        SQL = 1,
+    }
+
     //[DbConfigurationType(typeof(WarburnEstateDatabaseConfiguration))]
     public class ConfigurationContext : DbContext
     {
