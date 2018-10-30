@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Configuration.SQL
 {
+    [Obsolete("use configuration manager with sql storage",true)]
     public class ConfigurationManagerSQL
     {
 

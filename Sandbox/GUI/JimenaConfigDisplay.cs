@@ -17,7 +17,7 @@ namespace TI.Configuration.Logic
         {
             base.LoadConfiguration(instance);
             
-            this.label1.Text = cfg.JimenasNewname;
+            this.label1.Text = cfg.Name;
         }
 
         //TODO: this should also be separated to assign the display control values back to the config fro mthe actual saving/writing part
@@ -25,7 +25,7 @@ namespace TI.Configuration.Logic
         {
             cfg.JimenasNewname = textBox1.Text;
 
-            ConfigurationManager.Instance.Write(cfg);
+            ConfigurationManager.Instance.Save(cfg);
         }
     }
 }

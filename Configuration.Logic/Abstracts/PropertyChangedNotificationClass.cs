@@ -7,8 +7,7 @@ namespace TI.Configuration.Logic._internals.Configs
     /// Class wich should be used for inheritance where the interface <c>INotifyPropertyChanged</c> 
     /// is used.
     /// </summary>
-    public abstract class PropertyChangedNotificationClass 
-        : INotifyPropertyChanged
+    public abstract class PropertyChangedNotificationClass : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

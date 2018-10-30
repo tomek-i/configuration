@@ -12,7 +12,7 @@ namespace Sandbox
         //TestConfig cfg = new TestConfig();
         public Form1()
         {
-            ConfigurationManager.Instance.AddWatcher<JimenaConfi>(this);
+           // ConfigurationManager.Instance.AddWatcher<JimenaConfi>(this);
 
             InitializeComponent();
         }
@@ -34,7 +34,7 @@ namespace Sandbox
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            Controls.Add(ConfigurationManager.Instance.GetMappedDisplay<JimenaConfi>());
+            //Controls.Add(ConfigurationManager.Instance.GetMappedDisplay<JimenaConfi>());
             //Controls.Add(ConfigurationManager.Instance.GetMappedDisplay<MasterConfig>());
         }
     }

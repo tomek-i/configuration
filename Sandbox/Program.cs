@@ -16,16 +16,7 @@ namespace Sandbox
         [STAThread]
         static void Main()
         {
-            var cfg = ConfigurationManager.Instance.Read<JimenaConfi>();
-            ConfigurationManager.Instance.MapToDisplay<JimenaConfi, JimenaConfigDisplay>();
-            var i = ConfigurationManagerSQL.Instance;
-            var s = i.Get("L1FILLER");
-            s.Add(new SQLAppConfigSetting("RUNNUMBERTAG", "L1_Run_Number", ConfigMode.Live));
-            var cf = i.Read("L1FILLER");
-            MessageBox.Show($"{i.Write(s)}");
-            s.Mode = ConfigMode.Live;
-           var x1 = s.Get("RUNNUMBERTAG");
-            var x2= s.Get("RUNNUMBERTAG", ConfigMode.Default);
+           
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form2());

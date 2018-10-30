@@ -11,13 +11,13 @@ namespace TI.Configuration.Logic
     /// which represents the configuration
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class ConfigurationDisplayBase<T>:UserControl where T:ConfigurationBase
+    public abstract class ConfigurationDisplayBase<T>:UserControl where T:class,IConfiguration
     {
-        private static IConfigurationManager configManager;
+        private static ConfigurationManager configManager;
 
         protected T cfg { get; private set; }
 
-        public static void Initialize(IConfigurationManager manager)
+        public static void Initialize(ConfigurationManager manager)
         {
             configManager = manager;
         }
@@ -34,13 +34,13 @@ namespace TI.Configuration.Logic
 
         public virtual void SaveConfiguration()
         {
-            configManager.Write(cfg);
+            configManager.Save(cfg);
         }
         public virtual void LoadConfiguration(T instance=null)
         {
             if(instance==null)
             {
-                cfg = configManager.Read<T>();
+                cfg = (T)configManager.Load<T>(instance.Name);
             }
             else
             {

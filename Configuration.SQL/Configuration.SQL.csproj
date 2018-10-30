@@ -49,12 +49,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationContext.cs" />
+    <Compile Include="ConfigurationManagerSQL.cs" />
+    <Compile Include="ConfigurationSQLStorage.cs" />
     <Compile Include="Migrations\201810300006207_Add_Table_AppConfig_And_Settings.cs" />
     <Compile Include="Migrations\201810300006207_Add_Table_AppConfig_And_Settings.Designer.cs">
       <DependentUpon>201810300006207_Add_Table_AppConfig_And_Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810300156341_Removed_Unused_Column.cs" />
+    <Compile Include="Migrations\201810300156341_Removed_Unused_Column.Designer.cs">
+      <DependentUpon>201810300156341_Removed_Unused_Column.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLAppConfig.cs" />
+    <Compile Include="SQLAppConfigSetting.cs" />
+    <Compile Include="WarburnEstateDatabaseFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -69,6 +78,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201810300006207_Add_Table_AppConfig_And_Settings.resx">
       <DependentUpon>201810300006207_Add_Table_AppConfig_And_Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810300156341_Removed_Unused_Column.resx">
+      <DependentUpon>201810300156341_Removed_Unused_Column.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -103,6 +103,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Serializer\Serializer.Logic\Serializer.Logic.csproj">
+      <Project>{702E433C-65F6-480F-AB56-85F523AD9E00}</Project>
+      <Name>Serializer.Logic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Configuration.Logic\Configuration.Logic.csproj">
       <Project>{22dcb108-ac62-4eb2-8037-1d2976980aac}</Project>
       <Name>Configuration.Logic</Name>

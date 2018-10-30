@@ -10,19 +10,24 @@ using System.Windows.Forms;
 using TI.Configuration.Logic;
 using TI.Configuration.Logic._internals.Configs;
 using TI.Configuration.Logic.Abstracts;
+using TI.Serializer.Logic.Serializers;
 
 namespace Sandbox
 {
     public partial class Form2 : Form,INeedConfigUpdates
     {
-        JimenaConfi cfg;
+       JimenaConfi cfg;
         public Form2()
         {
             InitializeComponent();
 
-            ConfigurationManager.Instance.AddWatcher<JimenaConfi>(this);
-            cfg = ConfigurationManager.Instance.Read<JimenaConfi>();
-
+            // ConfigurationManager.Instance.AddWatcher<JimenaConfi>(this);
+            ConfigurationManager.Create(new ConfigurationFileStorage(new JsonSerializer(), "json",ConfigMode.Test));
+              cfg = (JimenaConfi)ConfigurationManager.Instance.Load<JimenaConfi>(nameof(JimenaConfi));
+            if (!ConfigurationManager.Instance.Exist<JimenaConfi>(nameof(JimenaConfi)))
+            {
+                ConfigurationManager.Instance.Save(new JimenaConfi());
+            }
         }
 
         public void OnConfigurationUpdate<T>(T instance) where T : ConfigurationBase

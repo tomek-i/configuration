@@ -1,4 +1,6 @@
-﻿namespace Configuration.SQL
+﻿using TI.Configuration.Logic;
+
+namespace Configuration.SQL
 {
     public class SQLAppConfigSetting
     {

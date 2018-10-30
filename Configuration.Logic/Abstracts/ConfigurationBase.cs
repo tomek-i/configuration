@@ -1,22 +1,30 @@
 ﻿using System;
+using System.Diagnostics;
 using TI.Configuration.Logic._internals.Configs;
 using TI.Configuration.Logic.API;
 
 namespace TI.Configuration.Logic.Abstracts
 {
     [Serializable]
-    public abstract class ConfigurationBase : 
-        PropertyChangedNotificationClass,
-        IConfiguration
+    [DebuggerDisplay("{Name}")]
+    public abstract class ConfigurationBase : PropertyChangedNotificationClass, IConfiguration
     {
-       
-        public string Name => GetType().Name;
+        public string Name { get; protected set; }
         public DateTime Created { get; }
 
-      
-        protected ConfigurationBase()
+        protected ConfigurationBase(string name)
         {
-             Created = DateTime.Now;
+            if(name == null)
+                Name=GetType().Name;
+            else
+             Name = name;
+
+            Created = DateTime.Now;
+        }
+
+        protected ConfigurationBase():this(null)
+        {
+          
         }
 
         public abstract IConfiguration Default();
@@ -25,12 +33,5 @@ namespace TI.Configuration.Logic.Abstracts
         {
             base.OnPropertyChanged(propertyName, onChanged);
         }
-
-        #region Overrides of Object
-        public override string ToString()
-        {
-            return Name;
-        }
-        #endregion
     }
 }
