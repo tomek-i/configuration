@@ -3,8 +3,11 @@ using TI.Configuration.Logic.API;
 
 namespace TI.Configuration.Logic
 {
-    public interface IConfigurationStorage<T>
-        
+    /// <summary>
+    /// Interface which defines a configuration store
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public interface IConfigurationStorage<T> where T : class, IConfiguration
     {
         ConfigMode Mode { get; }
 

@@ -2,14 +2,19 @@ using System;
 
 namespace TI.Configuration.Logic
 {
+    /// <summary>
+    /// Add tooltips/descripotions to configuration properties
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class ConfigurationToolTipAttribute : Attribute
     {
-        public ConfigurationToolTipAttribute(string tooltiptext)
+        public ConfigurationToolTipAttribute(string tooltip, string description)
         {
-            TooltipText = tooltiptext;
+            Tooltip = tooltip;
+            Description = description;
         }
 
-        public string TooltipText { get; }
+        public string Tooltip { get; }
+        public string Description { get; }
     }
 }

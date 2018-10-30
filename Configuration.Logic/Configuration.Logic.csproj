@@ -43,20 +43,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstracts\ConfigurationBase.cs" />
-    <Compile Include="Abstracts\IConfigurationManagerBase.cs" />
-    <Compile Include="Abstracts\IConfigurationStorage.cs" />
+    <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="ConfigurationStorages\ConfigurationStorageCache.cs" />
+    <Compile Include="API\IConfigurationManagerBase.cs" />
+    <Compile Include="API\IConfigurationStorage.cs" />
     <Compile Include="API\IConfiguration.cs" />
     <Compile Include="API\IConfigurationDisplayMapper.cs" />
-    <Compile Include="API\IConfigurationManager.cs" />
     <Compile Include="Abstracts\ConfigurationDisplayBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Attributes\ConfigurationToolTipAttribute.cs" />
     <Compile Include="Abstracts\PropertyChangedNotificationClass.cs" />
-    <Compile Include="ConfigurationFileStorage.cs" />
+    <Compile Include="ConfigMode.cs" />
+    <Compile Include="ConfigurationStorages\ConfigurationFileStorage.cs" />
     <Compile Include="Exceptions\ConfigurationFileStorageException.cs" />
     <Compile Include="Abstracts\ConfigurationManagerBase.cs" />
-    <Compile Include="ConfigurationManagerEx.cs" />
     <Compile Include="Abstracts\ConfigurationStorage.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="API\INeedConfigUpdates.cs" />

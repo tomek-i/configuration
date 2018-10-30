@@ -12,12 +12,12 @@ namespace TI.Configuration.Logic
         public static string GetTooltip<T, TProp>(this T o, Expression<Func<T, TProp>> propertySelector) where T : Configuration.Logic.Abstracts.ConfigurationBase
         {
             string propertyName = ((MemberExpression)propertySelector.Body).Member.Name;
-            return ((MemberExpression)propertySelector.Body).Expression.Type.GetProperty(propertyName).GetCustomAttribute<ConfigurationToolTipAttribute>()?.TooltipText;
+            return ((MemberExpression)propertySelector.Body).Expression.Type.GetProperty(propertyName).GetCustomAttribute<ConfigurationToolTipAttribute>()?.Tooltip;
         }
 
         public static string GetTooltip<T>(this T o, string propertyName) where T : Configuration.Logic.Abstracts.ConfigurationBase
         {
-            return o.GetType().GetProperty(propertyName).GetCustomAttribute<ConfigurationToolTipAttribute>()?.TooltipText;
+            return o.GetType().GetProperty(propertyName).GetCustomAttribute<ConfigurationToolTipAttribute>()?.Tooltip;
         }
       
     }

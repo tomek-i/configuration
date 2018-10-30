@@ -31,9 +31,9 @@ namespace Sandbox
             sp.Restart();
               cfg = ConfigurationManager.Instance.Load<JimenaConfi>(nameof(JimenaConfi));
             Console.WriteLine(sp.Elapsed);
-            if (!ConfigurationManager.Instance.Exist<JimenaConfi>(nameof(JimenaConfi)))
+            if (!ConfigurationManager.Instance.Exist<JimenaConfi>(cfg.Name))
             {
-                ConfigurationManager.Instance.Save(new JimenaConfi());
+                ConfigurationManager.Instance.Save(cfg);
             }
         }
 

@@ -4,6 +4,10 @@ using System;
 
 namespace TI.Configuration.Logic
 {
+    /// <summary>
+    /// Configuration Manager, you have to call <c>ConfigurationManager.Create()</c> first.
+    /// TODO: maybe there is a better solution to the usage of this
+    /// </summary>
     public sealed class ConfigurationManager : ConfigurationManagerBase
     {
         public static ConfigurationManager Instance { get; private set; }
@@ -18,35 +22,30 @@ namespace TI.Configuration.Logic
         {
            
         }
-   
-     
         public override bool Exist<T>(string name) 
         {
-            return Load<T>(name) != null;
+            return Storage.Get<T>(name) != null;
         }
-
-     
-
-
         public override void Save<T>(T instance) 
         {
             Storage.Set(instance);
         }
-
         public override Task SaveAsync<T>(T instance)
         {
             return Storage.SetAsync(instance);
         }
-
-      
-
-        
         public override T Load<T>(string name) 
         {
-            return (T)Storage.Get<T>(name);
+            var cfg = (T)Storage.Get<T>(name);
+
+            if(cfg==null)
+            {
+                cfg = Activator.CreateInstance<T>();
+            }
+            return (T)cfg.Default();
         }
 
-        //TODO: test?!
+        //TODO: test this?!
         public override Task<T> LoadAsync<T>(string name)
         {
             return (Task<T>)(object)Storage.GetAsync<T>(name);

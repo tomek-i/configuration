@@ -7,19 +7,13 @@ using System.Text;
 
 namespace TI.Configuration.Logic
 {
-
-    public enum ConfigMode
-    {
-        Default = 1,
-        Live = 1,
-        Test = 2
-    }
-
+    /// <summary>
+    /// File I/O storage of configurations
+    /// </summary>
     public sealed class ConfigurationFileStorage : ConfigurationStorage<IConfiguration>
     {
         private string _path;
         private string _fileExtension;
-
         private ISerializer _serializer;
 
         public ConfigurationFileStorage(ISerializer serializer, string fileExtension, ConfigMode mode, string path = "./config") : base(mode)
@@ -64,9 +58,6 @@ namespace TI.Configuration.Logic
                 return null;
             }
         }
-
-
-
         public override IConfiguration Get<T>(string name)
         {
             var filepath = getFileLocation(name);
@@ -118,9 +109,10 @@ namespace TI.Configuration.Logic
         {
             var filepath = getFileLocation(instance.Name);
             var content = _serializer.Serialize(instance);
-            Directory.CreateDirectory(Path.GetDirectoryName(filepath));
+            
             try
             {
+                Directory.CreateDirectory(Path.GetDirectoryName(filepath));
                 using (TextWriter writer = new StreamWriter(File.Create(filepath)))
                 {
                     writer.Write(content);
