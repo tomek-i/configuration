@@ -107,6 +107,10 @@
       <Project>{22dcb108-ac62-4eb2-8037-1d2976980aac}</Project>
       <Name>Configuration.Logic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Configuration.SQL\Configuration.SQL.csproj">
+      <Project>{45F23554-98DE-44AC-9916-B30EFAF59B00}</Project>
+      <Name>Configuration.SQL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,7 +16,7 @@ namespace TI.Configuration.Logic
     /// sending notifications to watchers/observers when cofnguration has changed
     /// and allows to register a display for configuration types.
     /// </summary>
-    public class ConfigurationManager : IConfigurationManager
+    public class ConfigurationManager : IConfigurationManager, IConfigurationDisplayMapper
     {
         System.Threading.ReaderWriterLock rwl = new ReaderWriterLock();
 
