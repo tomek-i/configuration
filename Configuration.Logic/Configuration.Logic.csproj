@@ -43,13 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstracts\ConfigurationBase.cs" />
+    <Compile Include="Abstracts\IConfigurationManagerBase.cs" />
+    <Compile Include="Abstracts\IConfigurationStorage.cs" />
     <Compile Include="API\IConfiguration.cs" />
     <Compile Include="API\IConfigurationDisplayMapper.cs" />
     <Compile Include="API\IConfigurationManager.cs" />
     <Compile Include="Abstracts\ConfigurationDisplayBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="API\IConfigurationManagerBase.cs" />
     <Compile Include="Attributes\ConfigurationToolTipAttribute.cs" />
     <Compile Include="Abstracts\PropertyChangedNotificationClass.cs" />
     <Compile Include="ConfigurationFileStorage.cs" />

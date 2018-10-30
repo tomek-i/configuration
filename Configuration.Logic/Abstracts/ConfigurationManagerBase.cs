@@ -3,21 +3,20 @@ using System.Threading.Tasks;
 
 namespace TI.Configuration.Logic
 {
-    public abstract class ConfigurationManagerBase<T> : IConfigurationManagerBase
-        where T : class, IConfiguration
+    public abstract class ConfigurationManagerBase : IConfigurationManagerBase
     {
 
-        public ConfigurationStorage<T> Storage { get; }
+        public IConfigurationStorage<IConfiguration> Storage { get; }
 
-        public abstract bool Exist<A>(string name) where A : class, IConfiguration;
+        public abstract bool Exist<T>(string name) where T : class, IConfiguration;
 
-        public abstract T Load<A>(string name) where A : class, IConfiguration;
-        public abstract Task<T> LoadAsync<A>(string name) where A : class, IConfiguration;
+        public abstract T Load<T>(string name) where T : class, IConfiguration;
+        public abstract Task<T> LoadAsync<T>(string name) where T : class, IConfiguration;
 
-        public abstract void Save(T instance) ;
-        public abstract Task SaveAsync(T instance);
+        public abstract void Save<T>(T instance) where T : class, IConfiguration;
+        public abstract Task SaveAsync<T>(T instance) where T : class, IConfiguration;
 
-        protected  ConfigurationManagerBase(ConfigurationStorage<T> storage)
+        protected  ConfigurationManagerBase(IConfigurationStorage<IConfiguration> storage)
         {
             Storage = storage;
         }

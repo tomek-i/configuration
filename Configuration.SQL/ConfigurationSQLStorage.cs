@@ -15,7 +15,7 @@ namespace Configuration.SQL
             _context = context;
         }
 
-        public override SQLAppConfig Get<A>(string name)
+        public override SQLAppConfig Get<T>(string name)
         {
             var instance = _context.Set<SQLAppConfig>().Include(x => x.Settings).Where(x => x.Name == name).SingleOrDefault();
             if (instance == null)
@@ -26,7 +26,7 @@ namespace Configuration.SQL
             return instance;
         }
 
-        public override async Task<SQLAppConfig> GetAsync<A>(string name)
+        public override async Task<SQLAppConfig> GetAsync<T>(string name)
         {
             var instance = await _context.Set<SQLAppConfig>().Include(x => x.Settings).Where(x => x.Name == name).SingleOrDefaultAsync();
             if (instance == null)
@@ -36,6 +36,8 @@ namespace Configuration.SQL
             }
             return instance;
         }
+
+
 
         public override void Set(SQLAppConfig instance)
         {
@@ -54,5 +56,7 @@ namespace Configuration.SQL
             }
             return _context.SaveChangesAsync();
         }
+
+       
     }
 }

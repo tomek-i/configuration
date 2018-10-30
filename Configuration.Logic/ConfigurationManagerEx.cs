@@ -4,45 +4,52 @@ using System;
 
 namespace TI.Configuration.Logic
 {
-    public sealed class ConfigurationManager : ConfigurationManagerBase<IConfiguration>
+    public sealed class ConfigurationManager : ConfigurationManagerBase
     {
         public static ConfigurationManager Instance { get; private set; }
 
-        public static ConfigurationManager Create(ConfigurationStorage<IConfiguration> storage)
+        public static ConfigurationManager Create(IConfigurationStorage<IConfiguration> storage)
         {
             var instance = new ConfigurationManager(storage);
             ConfigurationManager.Instance = instance;
             return Instance;
         }
-        private ConfigurationManager(ConfigurationStorage<IConfiguration> storage):base(storage)
+        private ConfigurationManager(IConfigurationStorage<IConfiguration> storage):base(storage)
         {
            
         }
-        //TODO: it should return the passed in type and A should be IConfiguration
-        public override IConfiguration Load<A>(string name)
+   
+     
+        public override bool Exist<T>(string name) 
         {
-            return Storage.Get<A>(name);
+            return Load<T>(name) != null;
         }
 
-        public override bool Exist<A>(string name)
-        {
-            return Load<A>(name) != null;
-        }
+     
 
-        //TODO: it should return the passed in type and A should be IConfiguration
-        public override Task<IConfiguration> LoadAsync<A>(string name)
-        {
-            return Storage.GetAsync<A>(name);
-        }
 
-        public override void Save(IConfiguration instance)
+        public override void Save<T>(T instance) 
         {
             Storage.Set(instance);
         }
 
-        public override Task SaveAsync(IConfiguration instance)
+        public override Task SaveAsync<T>(T instance)
         {
             return Storage.SetAsync(instance);
+        }
+
+      
+
+        
+        public override T Load<T>(string name) 
+        {
+            return (T)Storage.Get<T>(name);
+        }
+
+        //TODO: test?!
+        public override Task<T> LoadAsync<T>(string name)
+        {
+            return (Task<T>)(object)Storage.GetAsync<T>(name);
         }
     }
 }

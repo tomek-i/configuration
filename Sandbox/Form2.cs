@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -22,8 +23,14 @@ namespace Sandbox
             InitializeComponent();
 
             // ConfigurationManager.Instance.AddWatcher<JimenaConfi>(this);
+            Stopwatch sp = new Stopwatch();
+            sp.Restart();
             ConfigurationManager.Create(new ConfigurationFileStorage(new JsonSerializer(), "json",ConfigMode.Test));
-              cfg = (JimenaConfi)ConfigurationManager.Instance.Load<JimenaConfi>(nameof(JimenaConfi));
+            Console.WriteLine(sp.Elapsed);
+
+            sp.Restart();
+              cfg = ConfigurationManager.Instance.Load<JimenaConfi>(nameof(JimenaConfi));
+            Console.WriteLine(sp.Elapsed);
             if (!ConfigurationManager.Instance.Exist<JimenaConfi>(nameof(JimenaConfi)))
             {
                 ConfigurationManager.Instance.Save(new JimenaConfi());

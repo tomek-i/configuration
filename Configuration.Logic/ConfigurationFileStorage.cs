@@ -22,15 +22,19 @@ namespace TI.Configuration.Logic
 
         private ISerializer _serializer;
 
-        public ConfigurationFileStorage(ISerializer serializer, string fileExtension,ConfigMode mode, string path = "./config"):base(mode)
+        public ConfigurationFileStorage(ISerializer serializer, string fileExtension, ConfigMode mode, string path = "./config") : base(mode)
         {
             _serializer = serializer;
             _path = path;
             _fileExtension = fileExtension.TrimStart('.');
 
         }
+        private string getFileLocation(string name)
+        {
+            return Path.Combine(_path, Mode.ToString(), $"{name}.{_fileExtension}");
+        }
 
-        public override async Task<IConfiguration> GetAsync<A>(string name)
+        public override async Task<IConfiguration> GetAsync<T>(string name)
         {
             var filepath = getFileLocation(name);
 
@@ -49,7 +53,7 @@ namespace TI.Configuration.Logic
                 }
                 var content = sb.ToString();
 
-                var config = _serializer.Deserialize<IConfiguration>(content);
+                var config = _serializer.Deserialize<T>(content);
 
                 return config;
             }
@@ -60,13 +64,10 @@ namespace TI.Configuration.Logic
                 return null;
             }
         }
-        private string getFileLocation(string name)
-        {
-            return Path.Combine(_path, Mode.ToString(), $"{name}.{_fileExtension}");
-        }
 
 
-        public override IConfiguration Get<A>(string name)
+
+        public override IConfiguration Get<T>(string name)
         {
             var filepath = getFileLocation(name);
 
@@ -79,7 +80,13 @@ namespace TI.Configuration.Logic
                     content = source.ReadToEnd();
                 }
 
-                var config = _serializer.Deserialize<A>(content);
+                //TODO: this is the bottleneck, wrapping in task caused more overhead
+                T config = _serializer.Deserialize<T>(content); 
+                //T config = Task.Factory.StartNew(() =>
+                //{
+                //    return _serializer.Deserialize<T>(content);
+                //}).GetAwaiter().GetResult();
+
 
                 return config;
             }
@@ -111,7 +118,7 @@ namespace TI.Configuration.Logic
         {
             var filepath = getFileLocation(instance.Name);
             var content = _serializer.Serialize(instance);
-
+            Directory.CreateDirectory(Path.GetDirectoryName(filepath));
             try
             {
                 using (TextWriter writer = new StreamWriter(File.Create(filepath)))
