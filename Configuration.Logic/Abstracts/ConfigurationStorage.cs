@@ -1,4 +1,4 @@
-﻿using TI.Configuration.Logic.API;
+﻿using TI.Configuration.Logic.Interfaces;
 using System.Threading.Tasks;
 
 namespace TI.Configuration.Logic

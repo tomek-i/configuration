@@ -2,7 +2,7 @@
 using System.Linq;
 using TI.Configuration.Logic;
 using TI.Configuration.Logic.Abstracts;
-using TI.Configuration.Logic.API;
+using TI.Configuration.Logic.Interfaces;
 
 namespace Configuration.SQL
 {
