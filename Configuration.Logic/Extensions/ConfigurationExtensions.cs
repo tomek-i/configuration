@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using TI.Configuration.Logic.API;
+using TI.Configuration.Logic.Interfaces;
 using TI.Configuration.Logic._internals.Configs;
 using System.Linq.Expressions;
 

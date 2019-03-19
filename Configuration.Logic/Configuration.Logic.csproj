@@ -43,8 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstracts\ConfigurationBase.cs" />
-    <Compile Include="API\IConfiguration.cs" />
-    <Compile Include="API\IConfigurationManager.cs" />
+    <Compile Include="Interfaces\IConfiguration.cs" />
+    <Compile Include="Interfaces\IConfigurationManager.cs" />
     <Compile Include="Abstracts\ConfigurationDisplayBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -53,15 +53,9 @@
     <Compile Include="Abstracts\PropertyChangedNotificationClass.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="ConfigurationManager.cs" />
-    <Compile Include="API\INeedConfigUpdates.cs" />
+    <Compile Include="Interfaces\INeedConfigUpdates.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_internals\Configs\MasterConfig.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Serializer\Serializer.Logic\Serializer.Logic.csproj">
-      <Project>{702e433c-65f6-480f-ab56-85f523ad9e00}</Project>
-      <Name>Serializer.Logic</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\DataSources\TI.Configuration.Logic.ConfigurationExperiment.datasource" />

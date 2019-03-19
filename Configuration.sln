@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration.Logic", "Conf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration.UnitTests", "Configuration.UnitTests\Configuration.UnitTests.csproj", "{D523E8C2-D662-4B33-ACFD-07DA6F076064}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serializer.Logic", "..\Serializer\Serializer.Logic\Serializer.Logic.csproj", "{702E433C-65F6-480F-AB56-85F523AD9E00}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3rdParty", "3rdParty", "{E1DA4F95-1F34-4166-9572-03629BE710E2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{6130F702-138E-4367-ACBA-6FAEB61C6C16}"
 EndProject
 Global
@@ -27,10 +23,6 @@ Global
 		{D523E8C2-D662-4B33-ACFD-07DA6F076064}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D523E8C2-D662-4B33-ACFD-07DA6F076064}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D523E8C2-D662-4B33-ACFD-07DA6F076064}.Release|Any CPU.Build.0 = Release|Any CPU
-		{702E433C-65F6-480F-AB56-85F523AD9E00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{702E433C-65F6-480F-AB56-85F523AD9E00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{702E433C-65F6-480F-AB56-85F523AD9E00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{702E433C-65F6-480F-AB56-85F523AD9E00}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6130F702-138E-4367-ACBA-6FAEB61C6C16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6130F702-138E-4367-ACBA-6FAEB61C6C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6130F702-138E-4367-ACBA-6FAEB61C6C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,7 +31,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{702E433C-65F6-480F-AB56-85F523AD9E00} = {E1DA4F95-1F34-4166-9572-03629BE710E2}
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F6A06EE3-558A-4CCD-A27B-F7DBBBEC0607}
 	EndGlobalSection
 EndGlobal
