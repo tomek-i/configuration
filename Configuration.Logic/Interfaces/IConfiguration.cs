@@ -1,10 +1,20 @@
 ﻿using System;
 
-namespace TI.Configuration.Logic.API
+namespace TI.Configuration.Logic.Interfaces
 {
+    /// <summary>
+    /// Basic configuration interface with minimal required properties
+    /// </summary>
     public interface IConfiguration
     {
+        /// <summary>
+        /// The name of the configuration (file)
+        /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// The date when the file was created
+        /// </summary>
         DateTime Created { get; }
 
         /// <summary>

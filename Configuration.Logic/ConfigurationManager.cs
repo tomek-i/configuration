@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using TI.Configuration.Logic.API;
+using TI.Configuration.Logic.Interfaces;
 using TI.Configuration.Logic._internals.Configs;
 using System.Collections.Generic;
 using System.Windows.Forms;

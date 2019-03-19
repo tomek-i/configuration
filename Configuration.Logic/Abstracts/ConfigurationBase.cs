@@ -1,22 +1,19 @@
 ﻿using System;
 using TI.Configuration.Logic._internals.Configs;
-using TI.Configuration.Logic.API;
+using TI.Configuration.Logic.Interfaces;
 
 namespace TI.Configuration.Logic.Abstracts
 {
     [Serializable]
-    public abstract class ConfigurationBase : 
-        PropertyChangedNotificationClass,
-        IConfiguration
+    public abstract class ConfigurationBase : PropertyChangedNotificationClass, IConfiguration
     {
-       
+
         public string Name => GetType().Name;
         public DateTime Created { get; }
 
-      
         protected ConfigurationBase()
         {
-             Created = DateTime.Now;
+            Created = DateTime.Now;
         }
 
         public abstract IConfiguration Default();

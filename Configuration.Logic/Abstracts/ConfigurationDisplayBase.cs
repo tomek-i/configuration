@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using TI.Configuration.Logic.API;
+using TI.Configuration.Logic.Interfaces;
 using TI.Configuration.Logic.Abstracts;
 
 namespace TI.Configuration.Logic
