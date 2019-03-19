@@ -7,7 +7,7 @@
     <ProjectGuid>{D523E8C2-D662-4B33-ACFD-07DA6F076064}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TIConfiguration.UnitTests</RootNamespace>
+    <RootNamespace>TI.Configuration.UnitTests</RootNamespace>
     <AssemblyName>TI.Configuration.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

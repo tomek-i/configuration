@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using TI.Configuration.Logic._internals.Configs;
-using TI.Configuration.Logic.API;
+using TI.Configuration.Logic.Interfaces;
 
 namespace TI.Configuration.Logic.Abstracts
 {

@@ -1,7 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
 using TI.Configuration.Logic.Abstracts;
-using TI.Configuration.Logic.API;
+using TI.Configuration.Logic.Interfaces;
 
 namespace TIConfiguration.UnitTests
 {
