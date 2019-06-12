@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using TI.Configuration.Logic.Interfaces;
-using TI.Serializer.Logic.API;
 using System.Threading.Tasks;
 using System.Text;
+using TI.Serializer.Logic.API;
 
 namespace TI.Configuration.Logic
 {

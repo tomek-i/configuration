@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using TI.Configuration.Logic;
 using TI.Configuration.Logic.Abstracts;
@@ -8,25 +9,26 @@ namespace Configuration.SQL
 {
     public sealed class SQLAppConfig : ConfigurationBase
     {
-        public new string Name { get; private set; }
+        public int Id { get; internal set; }
+        public new string Name { get; set; }
+        public string Code { get; set; }
 
-        internal ICollection<SQLAppConfigSetting> Settings { get; private set; }
-        public ConfigMode Mode { get; set; }
+        public ICollection<SQLAppConfigSetting> Settings { get; private set; }
 
-        internal SQLAppConfig(string name) : this()
+        public SQLAppConfig(string name) : this()
         {
             Name = name;
         }
         public void Add(SQLAppConfigSetting setting)
         {
-            var existing = Settings.SingleOrDefault(x => x.Key == setting.Key && setting.Mode == x.Mode);
+            var existing = Settings.SingleOrDefault(x => x.Name == setting.Name && setting.Mode == x.Mode);
             if(existing!=null)
             {
                 existing.Value = setting.Value;
             }
             else
             {
-                setting.AppConfigId = Name;
+                setting.AppConfigId = Id;
                 Settings.Add(setting);
             }
 
@@ -47,12 +49,12 @@ namespace Configuration.SQL
 
         public string Get(string key)
         {
-            return Get(key, Mode);
+            return Get(key, ConfigMode.Default);
         }
 
         public string Get(string key, ConfigMode mode)
         {
-            return Settings.Where(x => x.Key == key && x.Mode == mode).SingleOrDefault()?.Value;
+            return Settings.Where(x => x.Name == key && x.Mode == mode).SingleOrDefault()?.Value;
         }
     }
 }

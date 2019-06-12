@@ -22,13 +22,14 @@ namespace Configuration.SQL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SQLAppConfigSetting>().HasKey(x => new { x.Key, x.Mode });
+            modelBuilder.Entity<SQLAppConfigSetting>().HasKey(x => x.Id);
+            modelBuilder.Entity<SQLAppConfigSetting>().Property(x => x.Id).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<SQLAppConfigSetting>().Property(x => x.Code).IsRequired();
 
-            modelBuilder.Entity<SQLAppConfig>().HasKey(x => x.Name);
-            modelBuilder.Entity<SQLAppConfig>().Ignore(x => x.Mode);
+            modelBuilder.Entity<SQLAppConfig>().HasKey(x => x.Id);
+            modelBuilder.Entity<SQLAppConfig>().Property(x => x.Id).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<SQLAppConfig>().HasMany(x => x.Settings).WithRequired(x => x.Config).HasForeignKey(x => x.AppConfigId);
-
-
+            modelBuilder.Entity<SQLAppConfig>().Property(x => x.Code).IsRequired();
         }
 
         /// <summary>

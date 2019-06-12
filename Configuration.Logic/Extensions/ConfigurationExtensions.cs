@@ -85,7 +85,7 @@ namespace TI.Configuration.Logic
         {
             string path, filename;
             var config = cfg as MasterConfig;
-            MasterConfig masterCfg = config ?? ConfigurationManager.Instance.Read<MasterConfig>();
+            MasterConfig masterCfg = config ?? ConfigurationManager.Instance.Load<MasterConfig>(null);
             if (cfg.IsInternalConfiguration())
             {
                 var internalCfg = cfg.GetInternalConfig();
