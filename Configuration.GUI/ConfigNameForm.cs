@@ -18,10 +18,16 @@ namespace Configuration.GUI
         }
 
         public string AppConfigName => textBox1.Text;
+        public string AppConfigCode => textBoxCode.Text;
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            textBoxCode.Text = AppConfigName.ToUpper().Replace(" ", "");
         }
     }
 }

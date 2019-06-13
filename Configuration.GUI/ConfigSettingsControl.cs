@@ -15,7 +15,7 @@ namespace Configuration.GUI
     {
         private bool isToggled = false;
         private Size original;
-        SQL.SQLAppConfigSetting currentSetting;
+        internal SQL.SQLAppConfigSetting currentSetting;
         public ConfigSettingsControl()
         {
             InitializeComponent();
@@ -37,15 +37,19 @@ namespace Configuration.GUI
             valueTextBox.Text = currentSetting.Value;
             textBoxDescription.Text = currentSetting.Description;
         }
-
+        public void SetModeCombobox(ConfigMode mode)
+        {
+            modeComboBox.SelectedItem = mode.ToString();
+            
+        }
         public void UpdateChanges()
         {
-            currentSetting.Code = codeTextBox.Text.ToUpper().Replace(" ",string.Empty);
+            currentSetting.Code = codeTextBox.Text.ToUpper().Replace(" ", string.Empty);
             currentSetting.Mode = (ConfigMode)Enum.Parse(typeof(ConfigMode), (string)modeComboBox.SelectedItem);
             currentSetting.Name = nameTextBox.Text;
             currentSetting.Value = valueTextBox.Text;
             currentSetting.Description = textBoxDescription.Text;
-           //MessageBox.Show(Main.db.SaveChanges().ToString());
+            //MessageBox.Show(Main.db.SaveChanges().ToString());
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
@@ -58,7 +62,7 @@ namespace Configuration.GUI
 
         private void buttonToggle_Click(object sender, EventArgs e)
         {
-            if(!isToggled)
+            if (!isToggled)
             {
                 //make small
                 Size = new Size(Size.Width, 130);
@@ -85,6 +89,56 @@ namespace Configuration.GUI
         private void codeTextBox_TextChanged(object sender, EventArgs e)
         {
 
+        }
+        internal ConfigSettingsControl CloneControl()
+        {
+            var clonedSetting = new SQL.SQLAppConfigSetting("", "", ConfigMode.Default);
+            clonedSetting.Code = codeTextBox.Text.ToUpper().Replace(" ", string.Empty);
+            clonedSetting.Mode = (ConfigMode)Enum.Parse(typeof(ConfigMode), (string)modeComboBox.SelectedItem);
+            clonedSetting.Name = nameTextBox.Text;
+            clonedSetting.Value = valueTextBox.Text;
+            clonedSetting.Description = textBoxDescription.Text;
+            clonedSetting.Config = currentSetting.Config;
+            clonedSetting.AppConfigId = currentSetting.AppConfigId;
+
+            return new ConfigSettingsControl(clonedSetting);
+        }
+        private void buttonClone_Click(object sender, EventArgs e)
+        {
+
+            this.Parent.Controls.Add(CloneControl());
+        }
+
+        internal void VisibleIf(string v)
+        {
+            Visible = modeComboBox.SelectedItem.ToString() == v || v.ToUpper() == "ALL";
+        }
+
+        internal void PerformToggle(bool expand)
+        {
+            isToggled = expand;
+            buttonToggle.PerformClick();
+        }
+
+        private void modeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateColor();
+        }
+
+        private void UpdateColor()
+        {
+            switch ((ConfigMode)(Enum.Parse(typeof(ConfigMode),(string)modeComboBox.SelectedItem)))
+            {
+                case ConfigMode.Live:
+                    BackColor = Color.OrangeRed;
+                    break;
+                case ConfigMode.Test:
+                    BackColor = Color.LightGreen;
+                    break;
+                default:
+                    BackColor = SystemColors.Control;
+                    break;
+            }
         }
     }
 }

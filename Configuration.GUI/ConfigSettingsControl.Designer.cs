@@ -40,11 +40,14 @@
             this.buttonDelete = new System.Windows.Forms.Button();
             this.textBoxDescription = new System.Windows.Forms.TextBox();
             this.buttonToggle = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonClone = new System.Windows.Forms.Button();
             codeLabel = new System.Windows.Forms.Label();
             modeLabel = new System.Windows.Forms.Label();
             nameLabel = new System.Windows.Forms.Label();
             valueLabel = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // codeLabel
@@ -53,7 +56,7 @@
             codeLabel.Location = new System.Drawing.Point(14, 48);
             codeLabel.Name = "codeLabel";
             codeLabel.Size = new System.Drawing.Size(35, 13);
-            codeLabel.TabIndex = 0;
+            codeLabel.TabIndex = 3;
             codeLabel.Text = "Code:";
             codeLabel.Click += new System.EventHandler(this.codeLabel_Click);
             // 
@@ -63,7 +66,7 @@
             modeLabel.Location = new System.Drawing.Point(14, 74);
             modeLabel.Name = "modeLabel";
             modeLabel.Size = new System.Drawing.Size(37, 13);
-            modeLabel.TabIndex = 2;
+            modeLabel.TabIndex = 5;
             modeLabel.Text = "Mode:";
             // 
             // nameLabel
@@ -72,7 +75,7 @@
             nameLabel.Location = new System.Drawing.Point(14, 22);
             nameLabel.Name = "nameLabel";
             nameLabel.Size = new System.Drawing.Size(38, 13);
-            nameLabel.TabIndex = 4;
+            nameLabel.TabIndex = 1;
             nameLabel.Text = "Name:";
             // 
             // valueLabel
@@ -81,7 +84,7 @@
             valueLabel.Location = new System.Drawing.Point(14, 101);
             valueLabel.Name = "valueLabel";
             valueLabel.Size = new System.Drawing.Size(37, 13);
-            valueLabel.TabIndex = 6;
+            valueLabel.TabIndex = 7;
             valueLabel.Text = "Value:";
             // 
             // label1
@@ -90,7 +93,7 @@
             label1.Location = new System.Drawing.Point(14, 125);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(63, 13);
-            label1.TabIndex = 8;
+            label1.TabIndex = 9;
             label1.Text = "Description:";
             // 
             // codeTextBox
@@ -98,7 +101,7 @@
             this.codeTextBox.Location = new System.Drawing.Point(94, 45);
             this.codeTextBox.Name = "codeTextBox";
             this.codeTextBox.Size = new System.Drawing.Size(121, 20);
-            this.codeTextBox.TabIndex = 1;
+            this.codeTextBox.TabIndex = 4;
             this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
             // 
             // modeComboBox
@@ -107,14 +110,15 @@
             this.modeComboBox.Location = new System.Drawing.Point(94, 71);
             this.modeComboBox.Name = "modeComboBox";
             this.modeComboBox.Size = new System.Drawing.Size(121, 21);
-            this.modeComboBox.TabIndex = 3;
+            this.modeComboBox.TabIndex = 6;
+            this.modeComboBox.SelectedIndexChanged += new System.EventHandler(this.modeComboBox_SelectedIndexChanged);
             // 
             // nameTextBox
             // 
             this.nameTextBox.Location = new System.Drawing.Point(94, 19);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(121, 20);
-            this.nameTextBox.TabIndex = 5;
+            this.nameTextBox.TabIndex = 2;
             this.nameTextBox.TextChanged += new System.EventHandler(this.nameTextBox_TextChanged);
             // 
             // valueTextBox
@@ -122,15 +126,14 @@
             this.valueTextBox.Location = new System.Drawing.Point(94, 98);
             this.valueTextBox.Name = "valueTextBox";
             this.valueTextBox.Size = new System.Drawing.Size(121, 20);
-            this.valueTextBox.TabIndex = 7;
+            this.valueTextBox.TabIndex = 8;
             // 
             // buttonDelete
             // 
-            this.buttonDelete.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonDelete.Location = new System.Drawing.Point(0, 230);
+            this.buttonDelete.Location = new System.Drawing.Point(3, 3);
             this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(232, 40);
-            this.buttonDelete.TabIndex = 10;
+            this.buttonDelete.Size = new System.Drawing.Size(109, 30);
+            this.buttonDelete.TabIndex = 11;
             this.buttonDelete.Text = "DELETE";
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
@@ -141,26 +144,52 @@
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.Size = new System.Drawing.Size(198, 83);
-            this.textBoxDescription.TabIndex = 9;
+            this.textBoxDescription.TabIndex = 10;
             // 
             // buttonToggle
             // 
-            this.buttonToggle.Location = new System.Drawing.Point(3, 0);
+            this.buttonToggle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.buttonToggle.Location = new System.Drawing.Point(0, 0);
             this.buttonToggle.Name = "buttonToggle";
-            this.buttonToggle.Size = new System.Drawing.Size(228, 13);
-            this.buttonToggle.TabIndex = 11;
+            this.buttonToggle.Size = new System.Drawing.Size(230, 13);
+            this.buttonToggle.TabIndex = 0;
             this.buttonToggle.UseVisualStyleBackColor = true;
             this.buttonToggle.Click += new System.EventHandler(this.buttonToggle_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.buttonClone, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonDelete, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 232);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(230, 36);
+            this.tableLayoutPanel1.TabIndex = 12;
+            // 
+            // buttonClone
+            // 
+            this.buttonClone.Location = new System.Drawing.Point(118, 3);
+            this.buttonClone.Name = "buttonClone";
+            this.buttonClone.Size = new System.Drawing.Size(109, 30);
+            this.buttonClone.TabIndex = 12;
+            this.buttonClone.Text = "CLONE";
+            this.buttonClone.UseVisualStyleBackColor = true;
+            this.buttonClone.Click += new System.EventHandler(this.buttonClone_Click);
             // 
             // ConfigSettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.buttonDelete);
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.buttonToggle);
             this.Controls.Add(label1);
             this.Controls.Add(this.textBoxDescription);
-            this.Controls.Add(codeLabel);
             this.Controls.Add(this.codeTextBox);
             this.Controls.Add(modeLabel);
             this.Controls.Add(this.modeComboBox);
@@ -168,8 +197,10 @@
             this.Controls.Add(this.nameTextBox);
             this.Controls.Add(valueLabel);
             this.Controls.Add(this.valueTextBox);
+            this.Controls.Add(codeLabel);
             this.Name = "ConfigSettingsControl";
-            this.Size = new System.Drawing.Size(232, 270);
+            this.Size = new System.Drawing.Size(230, 268);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,5 +214,7 @@
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.TextBox textBoxDescription;
         private System.Windows.Forms.Button buttonToggle;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button buttonClone;
     }
 }

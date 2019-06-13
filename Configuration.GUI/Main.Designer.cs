@@ -50,11 +50,18 @@ namespace Configuration.GUI
             this.sQLAppConfigBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.sQLAppConfigListBox = new System.Windows.Forms.ListBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonSaveAll = new System.Windows.Forms.Button();
             this.buttonAddNewSetting = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cloneConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonCloneToMode = new System.Windows.Forms.Button();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.buttonToggle = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.sQLAppConfigBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sQLAppConfigBindingNavigator)).BeginInit();
             this.sQLAppConfigBindingNavigator.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridViewComboBoxColumn1
@@ -111,7 +118,6 @@ namespace Configuration.GUI
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
             this.bindingNavigatorAddNewItem.Text = "Add new";
-            this.bindingNavigatorAddNewItem.Click += new System.EventHandler(this.bindingNavigatorAddNewItem_Click);
             // 
             // bindingNavigatorCountItem
             // 
@@ -202,6 +208,7 @@ namespace Configuration.GUI
             // 
             this.sQLAppConfigListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.sQLAppConfigListBox.ContextMenuStrip = this.contextMenuStrip1;
             this.sQLAppConfigListBox.DataSource = this.sQLAppConfigBindingSource;
             this.sQLAppConfigListBox.DisplayMember = "Name";
             this.sQLAppConfigListBox.FormattingEnabled = true;
@@ -222,15 +229,15 @@ namespace Configuration.GUI
             this.flowLayoutPanel1.Size = new System.Drawing.Size(761, 555);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
-            // button1
+            // buttonSaveAll
             // 
-            this.button1.Location = new System.Drawing.Point(332, 33);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "SAVE";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonSaveAll.Location = new System.Drawing.Point(332, 33);
+            this.buttonSaveAll.Name = "buttonSaveAll";
+            this.buttonSaveAll.Size = new System.Drawing.Size(75, 23);
+            this.buttonSaveAll.TabIndex = 3;
+            this.buttonSaveAll.Text = "SAVE";
+            this.buttonSaveAll.UseVisualStyleBackColor = true;
+            this.buttonSaveAll.Click += new System.EventHandler(this.buttonSaveAll_Click);
             // 
             // buttonAddNewSetting
             // 
@@ -242,13 +249,72 @@ namespace Configuration.GUI
             this.buttonAddNewSetting.UseVisualStyleBackColor = true;
             this.buttonAddNewSetting.Click += new System.EventHandler(this.buttonAddNewSetting_Click);
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "All"});
+            this.comboBox1.Location = new System.Drawing.Point(519, 33);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 5;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cloneConfigToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(145, 26);
+            // 
+            // cloneConfigToolStripMenuItem
+            // 
+            this.cloneConfigToolStripMenuItem.Name = "cloneConfigToolStripMenuItem";
+            this.cloneConfigToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.cloneConfigToolStripMenuItem.Text = "Clone Config";
+            this.cloneConfigToolStripMenuItem.Click += new System.EventHandler(this.cloneConfigToolStripMenuItem_Click);
+            // 
+            // buttonCloneToMode
+            // 
+            this.buttonCloneToMode.Enabled = false;
+            this.buttonCloneToMode.Location = new System.Drawing.Point(646, 33);
+            this.buttonCloneToMode.Name = "buttonCloneToMode";
+            this.buttonCloneToMode.Size = new System.Drawing.Size(111, 23);
+            this.buttonCloneToMode.TabIndex = 7;
+            this.buttonCloneToMode.Text = "CLONE TO >>";
+            this.buttonCloneToMode.UseVisualStyleBackColor = true;
+            this.buttonCloneToMode.Click += new System.EventHandler(this.buttonCloneToMode_Click);
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(763, 35);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(121, 21);
+            this.comboBox2.TabIndex = 8;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            // 
+            // buttonToggle
+            // 
+            this.buttonToggle.Location = new System.Drawing.Point(422, 33);
+            this.buttonToggle.Name = "buttonToggle";
+            this.buttonToggle.Size = new System.Drawing.Size(75, 23);
+            this.buttonToggle.TabIndex = 9;
+            this.buttonToggle.Text = "TOGGLE";
+            this.buttonToggle.UseVisualStyleBackColor = true;
+            this.buttonToggle.Click += new System.EventHandler(this.buttonToggle_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 629);
+            this.Controls.Add(this.buttonToggle);
+            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.buttonCloneToMode);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.buttonAddNewSetting);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonSaveAll);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.sQLAppConfigListBox);
             this.Controls.Add(this.sQLAppConfigBindingNavigator);
@@ -259,6 +325,7 @@ namespace Configuration.GUI
             ((System.ComponentModel.ISupportInitialize)(this.sQLAppConfigBindingNavigator)).EndInit();
             this.sQLAppConfigBindingNavigator.ResumeLayout(false);
             this.sQLAppConfigBindingNavigator.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -283,8 +350,14 @@ namespace Configuration.GUI
         private System.Windows.Forms.ToolStripButton sQLAppConfigBindingNavigatorSaveItem;
         private System.Windows.Forms.ListBox sQLAppConfigListBox;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonSaveAll;
         private System.Windows.Forms.Button buttonAddNewSetting;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem cloneConfigToolStripMenuItem;
+        private System.Windows.Forms.Button buttonCloneToMode;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Button buttonToggle;
     }
 }
 

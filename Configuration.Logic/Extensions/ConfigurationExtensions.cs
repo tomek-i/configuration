@@ -60,12 +60,13 @@ namespace TI.Configuration.Logic
             return propertyAccess.Invoke(config.GetInternalConfig());
         }
 
-        
+
         /// <summary>
         /// Creates the directory for the configuration if it doesn't exist
         /// </summary>
         /// <param name="cfg">the confguration instance to create the directory for</param>
         /// <returns>returns the crated path for the configuraiton</returns>
+        [Obsolete("MasterCOnfig is obsolete, need to find other way", true)]
         public static string CreateDirectoryIfNotExist(this IConfiguration cfg)
         {
             var path = cfg.GetFilePath();
@@ -81,6 +82,7 @@ namespace TI.Configuration.Logic
         /// </summary>
         /// <param name="cfg">the configuration to store</param>
         /// <returns>the path where the configuration will be stored</returns>
+        [Obsolete("MasterCOnfig is obsolete, need to find other way",true)]
         public static string GetFilePath(this IConfiguration cfg)
         {
             string path, filename;

@@ -49,6 +49,7 @@
     <Compile Include="Attributes\InternalConfigurationAttribute.cs" />
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="ConfigurationStorages\ConfigurationStorageCache.cs" />
+    <Compile Include="ConfigurationStorages\ObservableStorage.cs" />
     <Compile Include="Interfaces\IConfigurationManagerBase.cs" />
     <Compile Include="Interfaces\IConfigurationStorage.cs" />
     <Compile Include="Interfaces\IConfiguration.cs" />

@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using TI.Configuration.Logic;
 using System.Data.Entity;
 using Configuration.SQL;
+using System.Threading.Tasks;
 
 namespace Configuration.GUI
 {
@@ -20,23 +21,49 @@ namespace Configuration.GUI
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-          
+
+            comboBox1.Items.AddRange(Enum.GetNames(typeof(ConfigMode)));
+            comboBox2.Items.AddRange(Enum.GetNames(typeof(ConfigMode)));
+            comboBox1.SelectedIndex = 0;
+
             await db.AppConfigs.Include(x => x.Settings).LoadAsync();
             sQLAppConfigBindingSource.DataSource = db.AppConfigs.Local;
         }
 
-        private void sQLAppConfigBindingSource_CurrentChanged(object sender, EventArgs e)
+        private async void sQLAppConfigBindingSource_CurrentChanged(object sender, EventArgs e)
         {
-            var settings =  ((SQLAppConfig)sQLAppConfigBindingSource.Current).Settings;
-            flowLayoutPanel1.Controls.Clear();
-
+            
+            flowLayoutPanel1.SuspendLayout();
+            var settings = ((SQLAppConfig)sQLAppConfigBindingSource.Current).Settings;
+            
+            List<Control> controls = new List<Control>();
             foreach (var setting in settings)
             {
-                flowLayoutPanel1.Controls.Add(new ConfigSettingsControl(setting));
+                var ctrl = new ConfigSettingsControl(setting);
+                ctrl.VisibleIf(comboBox1.SelectedItem.ToString());
+                controls.Add(ctrl);
             }
+            
+            await Task.Factory.StartNew(() =>
+            {
+                Action action = () =>
+                {
+                    flowLayoutPanel1.Controls.Clear();
+                    flowLayoutPanel1.Controls.AddRange(controls.ToArray());
+                };
+                if (flowLayoutPanel1.InvokeRequired)
+                {
+                    flowLayoutPanel1.Invoke(action);
+
+                }
+                else
+                    action.Invoke();
+            });
+            flowLayoutPanel1.ResumeLayout();
+
         }
 
-      
+
         private async void sQLAppConfigBindingNavigatorSaveItem_Click(object sender, EventArgs e)
         {
             int count = await db.SaveChangesAsync();
@@ -44,7 +71,7 @@ namespace Configuration.GUI
             MessageBox.Show(count.ToString());
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void buttonSaveAll_Click(object sender, EventArgs e)
         {
             foreach (ConfigSettingsControl control in flowLayoutPanel1.Controls)
             {
@@ -60,12 +87,12 @@ namespace Configuration.GUI
             using (var dlg = new ConfigNameForm())
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
-                    e.NewObject = new SQL.SQLAppConfig(dlg.AppConfigName);
+                    e.NewObject = new SQL.SQLAppConfig(dlg.AppConfigName) { Code = dlg.AppConfigCode };
                 else
-                    e.NewObject = new SQL.SQLAppConfig("New Config"); ;
-                
+                    throw new ArgumentException("need to fix this, there need to be a name + code");
+
             }
-                
+
         }
 
         private void buttonAddNewSetting_Click(object sender, EventArgs e)
@@ -80,9 +107,60 @@ namespace Configuration.GUI
             flowLayoutPanel1.Controls.Add(new ConfigSettingsControl(setting));
         }
 
-        private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
-        {
 
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (ConfigSettingsControl control in flowLayoutPanel1.Controls)
+            {
+                control.VisibleIf(comboBox1.SelectedItem.ToString());
+            }
+        }
+
+        private void cloneConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var current = (SQLAppConfig)sQLAppConfigBindingSource.Current;
+            using (var dlg = new ConfigNameForm())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    var cloned = new SQL.SQLAppConfig(dlg.AppConfigName) { Code = dlg.AppConfigCode };
+                    foreach (var setting in current.Settings)
+                    {
+                        cloned.Add(new SQL.SQLAppConfigSetting(setting.Name, setting.Value, setting.Mode) { Code = setting.Code,Description = setting.Description });
+                    }
+                    sQLAppConfigBindingSource.Add(cloned);
+                }
+            }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            buttonCloneToMode.Enabled = true;
+        }
+
+        private void buttonCloneToMode_Click(object sender, EventArgs e)
+        {
+            List<ConfigSettingsControl> clones = new List<ConfigSettingsControl>();
+            foreach (ConfigSettingsControl control in flowLayoutPanel1.Controls)
+            {
+                var cloned = control.CloneControl();
+
+                cloned.SetModeCombobox((ConfigMode)Enum.Parse(typeof(ConfigMode), (string)comboBox2.SelectedItem));
+                cloned.UpdateChanges();
+                ((SQL.SQLAppConfig)sQLAppConfigBindingSource.Current).Add(cloned.currentSetting);
+                clones.Add(cloned);
+            }
+            flowLayoutPanel1.Controls.AddRange(clones.ToArray());
+        }
+        bool expand = false;
+        private void buttonToggle_Click(object sender, EventArgs e)
+        {
+            foreach (ConfigSettingsControl control in flowLayoutPanel1.Controls)
+            {
+                control.PerformToggle(expand);
+            }
+            expand = !expand;
         }
     }
 }

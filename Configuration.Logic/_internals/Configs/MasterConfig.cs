@@ -1,10 +1,12 @@
-﻿using TI.Configuration.Logic.Abstracts;
+﻿using System;
+using TI.Configuration.Logic.Abstracts;
 using TI.Configuration.Logic.Interfaces;
 
 namespace TI.Configuration.Logic._internals.Configs
 {
 
     [InternalConfiguration]
+    [Obsolete("This configuration should be make obsolete",true)]
     public sealed class MasterConfig : ConfigurationBase
     {
         public const string ConfigDirectory = @".\config";
