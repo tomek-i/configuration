@@ -26,9 +26,9 @@ namespace TI.Configuration.Logic
 
         public void Set(IConfiguration instance)
         {
-            var chached = Cache.Where(x => x.Key == instance).SingleOrDefault();
-            if(chached.Key!=null)
-                Cache.Remove(chached.Key);
+            var chached = Cache.Where(x => x.Key == instance).Select(x=>x.Key).SingleOrDefault();
+            if(chached!=null)
+                Cache.Remove(chached);
 
             Storage.Set(instance);
             Cache.Add(instance,DateTime.Now);
