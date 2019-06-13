@@ -1,4 +1,4 @@
-﻿using TI.Configuration.Logic.Interfaces;
+using TI.Configuration.Logic.Interfaces;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
@@ -26,8 +26,12 @@ namespace TI.Configuration.Logic
 
         public void Set(IConfiguration instance)
         {
-            //TODO: add/replace in cache?
+            var chached = Cache.Where(x => x.Key == instance).SingleOrDefault();
+            if(chached.Key!=null)
+                Cache.Remove(chached.Key);
+
             Storage.Set(instance);
+            Cache.Add(instance,DateTime.Now);
         }
 
         public Task SetAsync(IConfiguration instance)
@@ -39,6 +43,9 @@ namespace TI.Configuration.Logic
         IConfiguration IConfigurationStorage<IConfiguration>.Get<TT>(string name)
         {
             var item = Cache.Where(x => x.Key is TT && x.Key.Name == name).SingleOrDefault();
+
+            if (item.Key == null) return null;
+
             var age = DateTime.Now - item.Value;
             if (age > CacheExpiry)
             {

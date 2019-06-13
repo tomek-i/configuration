@@ -1,4 +1,4 @@
-﻿using TI.Configuration.Logic.Interfaces;
+using TI.Configuration.Logic.Interfaces;
 using System.Threading.Tasks;
 using System;
 
