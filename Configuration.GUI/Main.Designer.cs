@@ -200,11 +200,11 @@ namespace Configuration.GUI
             // sQLAppConfigBindingNavigatorSaveItem
             // 
             this.sQLAppConfigBindingNavigatorSaveItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.sQLAppConfigBindingNavigatorSaveItem.Enabled = false;
             this.sQLAppConfigBindingNavigatorSaveItem.Image = ((System.Drawing.Image)(resources.GetObject("sQLAppConfigBindingNavigatorSaveItem.Image")));
             this.sQLAppConfigBindingNavigatorSaveItem.Name = "sQLAppConfigBindingNavigatorSaveItem";
             this.sQLAppConfigBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
             this.sQLAppConfigBindingNavigatorSaveItem.Text = "Save Data";
+            this.sQLAppConfigBindingNavigatorSaveItem.Click += new System.EventHandler(this.sQLAppConfigBindingNavigatorSaveItem_Click_1);
             // 
             // sQLAppConfigListBox
             // 

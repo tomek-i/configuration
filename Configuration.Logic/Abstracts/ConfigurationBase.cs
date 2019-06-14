@@ -12,19 +12,26 @@ namespace TI.Configuration.Logic.Abstracts
         public string Name { get; protected set; }
         public DateTime Created { get; }
 
+        public string Code { get; set; }
+
         protected ConfigurationBase(string name)
         {
-            if(name == null)
-                Name=GetType().Name;
-            else
-             Name = name;
+            if (name == null)
+            {
+                Name = GetType().Name;
+            }
 
+            else
+            {
+                Name = name;
+            }
+            Code = Name.ToUpper().Replace(" ", "");
             Created = DateTime.Now;
         }
 
-        protected ConfigurationBase():this(null)
+        protected ConfigurationBase() : this(null)
         {
-          
+
         }
 
         public abstract IConfiguration Default();

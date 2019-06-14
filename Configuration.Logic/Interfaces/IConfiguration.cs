@@ -11,6 +11,7 @@ namespace TI.Configuration.Logic.Interfaces
         /// The name of the configuration (file)
         /// </summary>
         string Name { get; }
+        string Code { get; }
 
         /// <summary>
         /// The date when the file was created

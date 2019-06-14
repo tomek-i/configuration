@@ -40,7 +40,7 @@ namespace Configuration.GUI
         public void SetModeCombobox(ConfigMode mode)
         {
             modeComboBox.SelectedItem = mode.ToString();
-            
+            currentSetting.Mode = mode;
         }
         public void UpdateChanges()
         {
@@ -100,7 +100,7 @@ namespace Configuration.GUI
             clonedSetting.Description = textBoxDescription.Text;
             clonedSetting.Config = currentSetting.Config;
             clonedSetting.AppConfigId = currentSetting.AppConfigId;
-
+            //currentSetting.Config.Settings.Add(clonedSetting);
             return new ConfigSettingsControl(clonedSetting);
         }
         private void buttonClone_Click(object sender, EventArgs e)

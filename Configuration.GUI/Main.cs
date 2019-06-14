@@ -32,7 +32,7 @@ namespace Configuration.GUI
 
         private async void sQLAppConfigBindingSource_CurrentChanged(object sender, EventArgs e)
         {
-            
+
             flowLayoutPanel1.SuspendLayout();
             var currentCfg = (SQLAppConfig)sQLAppConfigBindingSource.Current;
             var settings = (currentCfg).Settings;
@@ -44,7 +44,7 @@ namespace Configuration.GUI
                 ctrl.VisibleIf(comboBox1.SelectedItem.ToString());
                 controls.Add(ctrl);
             }
-            
+
             await Task.Factory.StartNew(() =>
             {
                 Action action = () =>
@@ -128,7 +128,7 @@ namespace Configuration.GUI
                     var cloned = new SQL.SQLAppConfig(dlg.AppConfigName) { Code = dlg.AppConfigCode };
                     foreach (var setting in current.Settings)
                     {
-                        cloned.Add(new SQL.SQLAppConfigSetting(setting.Name, setting.Value, setting.Mode) { Code = setting.Code,Description = setting.Description });
+                        cloned.Add(new SQL.SQLAppConfigSetting(setting.Name, setting.Value, setting.Mode) { Code = setting.Code, Description = setting.Description });
                     }
                     sQLAppConfigBindingSource.Add(cloned);
                 }
@@ -145,12 +145,23 @@ namespace Configuration.GUI
             List<ConfigSettingsControl> clones = new List<ConfigSettingsControl>();
             foreach (ConfigSettingsControl control in flowLayoutPanel1.Controls)
             {
+
                 var cloned = control.CloneControl();
 
                 cloned.SetModeCombobox((ConfigMode)Enum.Parse(typeof(ConfigMode), (string)comboBox2.SelectedItem));
-                cloned.UpdateChanges();
-                ((SQL.SQLAppConfig)sQLAppConfigBindingSource.Current).Add(cloned.currentSetting);
-                clones.Add(cloned);
+
+
+                if (flowLayoutPanel1.Controls.Cast<ConfigSettingsControl>().ToList().Where(x => x.currentSetting.Code == cloned.currentSetting.Code && x.currentSetting.Mode == cloned.currentSetting.Mode).Count() == 0 &&
+                    !clones.Any(x => x.currentSetting.Code == cloned.currentSetting.Code && x.currentSetting.Mode == cloned.currentSetting.Mode))
+                {
+                    cloned.UpdateChanges();
+                    ((SQL.SQLAppConfig)sQLAppConfigBindingSource.Current).Add(cloned.currentSetting);
+                    clones.Add(cloned);
+                }
+                else
+                {
+                    Console.WriteLine("The current item already exists for that mode.");
+                }
             }
             flowLayoutPanel1.Controls.AddRange(clones.ToArray());
         }
@@ -162,6 +173,11 @@ namespace Configuration.GUI
                 control.PerformToggle(expand);
             }
             expand = !expand;
+        }
+
+        private void sQLAppConfigBindingNavigatorSaveItem_Click_1(object sender, EventArgs e)
+        {
+            buttonSaveAll.PerformClick();
         }
     }
 }

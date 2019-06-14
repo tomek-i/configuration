@@ -9,13 +9,13 @@ namespace TI.Configuration.Logic
     /// <summary>
     /// Wraps a storage around a cache 
     /// </summary>
-    public sealed class ConfigurationStorageCache : IConfigStorage
+    public sealed class ConfigurationStorageCache<TStore> : IConfigStorage where TStore: IConfigStorage
     {
-        private IConfigStorage Storage;
+        public TStore Storage { get; private set; }
         private Dictionary<IConfiguration, DateTime> Cache;
         private TimeSpan CacheExpiry;
 
-        public ConfigurationStorageCache(TimeSpan cacheExpiry, IConfigStorage storage)
+        public ConfigurationStorageCache(TimeSpan cacheExpiry, TStore storage)
         {
             CacheExpiry = cacheExpiry;
             Storage = storage;
