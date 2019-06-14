@@ -17,9 +17,13 @@ namespace ConfigurationSandbox
         public int ConfigB { get; set; }
         public bool ConfigC { get; set; }
 
+        public TestConfig(string name):base(name)
+        {
+
+        }
         public override IConfiguration Default()
         {
-            return new TestConfig()
+            return new TestConfig("TestConfig")
             {
                 ConfigA = "Test A",
                 ConfigB = 2,
@@ -45,22 +49,15 @@ namespace ConfigurationSandbox
             //IMPORTANT: the cached configuration store wont work properly with the SQL storage
             var cachedSqlStorage = new ConfigurationStorageCache<SQLConfigStorage>(TimeSpan.FromSeconds(30), sqlStorage);
 
-            var manager = new ConfigurationManager<SQLConfigStorage>(sqlStorage);
+            var manager = new ConfigurationManager<ConfigurationFileStorage>(fileStorage);
 
             bool exist = false;
             if (!exist)
             {
-                
-                
-                var item = manager.Storage.Get<SQLAppConfig>("L1PACK");
-              
-                var value = item.Get("FORMATS", ConfigMode.Live);
-                var formats = manager.Storage.Get<SQLAppConfig>(value);
-                var format = formats.Get("9", ConfigMode.Live);
 
-             
-                manager.Storage.Set(item);
-
+                var test = manager.Storage.Get<TestConfig>("Line 1 Packaging");
+                if (test == null)
+                    manager.Storage.Set(new TestConfig("Line 1 Packaging"));
 
             }
 

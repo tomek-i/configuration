@@ -29,10 +29,10 @@ namespace TI.Configuration.Logic.Abstracts
             Created = DateTime.Now;
         }
 
-        protected ConfigurationBase() : this(null)
-        {
+        //protected ConfigurationBase() : this(null)
+        //{
 
-        }
+        //}
 
         public abstract IConfiguration Default();
 

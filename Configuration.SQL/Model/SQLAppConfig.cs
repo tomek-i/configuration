@@ -14,7 +14,7 @@ namespace Configuration.SQL
         //public string Code { get; set; }
 
         public ICollection<SQLAppConfigSetting> Settings { get; private set; }
-        internal SQLAppConfig():base()
+        internal SQLAppConfig():this("SQLAppConfig")
         {
             Settings = new List<SQLAppConfigSetting>();
         }
