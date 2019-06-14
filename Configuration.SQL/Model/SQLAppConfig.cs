@@ -7,7 +7,7 @@ using TI.Configuration.Logic.Interfaces;
 
 namespace Configuration.SQL
 {
-    public sealed class SQLAppConfig : ConfigurationBase
+    public  class SQLAppConfig : ConfigurationBase
     {
         public int Id { get; internal set; }
         public new string Name { get; set; }
@@ -18,6 +18,7 @@ namespace Configuration.SQL
         public SQLAppConfig(string name) : this()
         {
             Name = name;
+            Code = Name.ToUpper().Replace(" ", "");
         }
         public void Add(SQLAppConfigSetting setting)
         {

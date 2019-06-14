@@ -1,67 +1,73 @@
-using System;
 using System.Linq;
 using System.Data.Entity;
-using System.Threading.Tasks;
 using TI.Configuration.Logic;
 using TI.Configuration.Logic.Interfaces;
 
 namespace Configuration.SQL
 {
    
-  
-    public sealed class ConfigurationSQLStorage<T> : ConfigurationStorage<T> where T: class,IConfiguration
+  public class SQLConfigStorage : SQLStorage
     {
-        
-
         private ConfigurationContext _context;
 
-        public ConfigurationSQLStorage(ConfigurationContext context,ConfigMode mode):base(mode)
+        public SQLConfigStorage(ConfigurationContext context, ConfigMode mode):base(context,mode)
         {
-            
             _context = context;
-        }
-
-
-        public override T Get<TT>(string name)
-        {
-            var instance = _context.Set<SQLAppConfig>().Include(x => x.Settings).Where(x => x.Name == name).SingleOrDefault();
-            if (instance == null)
-            {
-                instance = new SQLAppConfig(name);
-                _context.AppConfigs.Add(instance);
-            }
-            return (T)(IConfiguration)instance;
-        }
-
-        public override async Task<T> GetAsync<TT>(string name)
-        {
             
-            var instance = await _context.Set<SQLAppConfig>().Include(x => x.Settings).Where(x => x.Name == name).SingleOrDefaultAsync();
-            if (instance == null)
-            {
-                instance = new SQLAppConfig(name);
-                _context.AppConfigs.Add(instance);
-            }
-            return (T)(IConfiguration)instance;
         }
-        public override void Set(T instance)
+        public new void Set<T>(T instance) where T:SQLAppConfig
         {
-            if (!_context.AppConfigs.Any(x => x.Name == instance.Name))
+            if (!_context.Set<T>().Any(x => x.Code == instance.Code))
             {
-                _context.AppConfigs.Add((SQLAppConfig)(object)instance);
+                _context.Set<T>().Add(instance);
+            }
+            else
+            {
+                // no need, if you update the instance and call set with the instance, it will update
             }
             _context.SaveChanges();
         }
-
-        public override Task SetAsync(T instance)
+        public new T Get<T>(string code) where T : SQLAppConfig
         {
-            if (!_context.AppConfigs.Any(x => x.Name == instance.Name))
+            var instance = _context.Set<SQLAppConfig>().Include(x => x.Settings).Where(x => x.Code == code).SingleOrDefault();
+            if (instance == null)
             {
-                _context.AppConfigs.Add((SQLAppConfig)(object)instance);
+                instance = new SQLAppConfig(code) { Code = code };
+                _context.Set<SQLAppConfig>().Add(instance);
             }
-            return _context.SaveChangesAsync();
+            return (T)instance;
+        }
+    }
+    public class SQLStorage : IConfigStorage 
+    {
+        private DbContext _context;
+
+        public SQLStorage(DbContext context,ConfigMode mode)
+        {
+            _context = context;
+        }
+       
+        public void Set<T>(T instance) where T : class, IConfiguration
+        {
+            if (!_context.Set<T>().Any(x => x.Name == instance.Name))
+            {
+                _context.Set<T>().Add(instance);
+            }
+            else
+            {
+                // no need, if you update the instance and call set with the instance, it will update
+            }
+            _context.SaveChanges();
+        }
+       
+        public T Get<T>(string name) where T : class,IConfiguration
+        {
+            var instance = _context.Set<T>().Where(x => x.Name == name).SingleOrDefault();
+            return instance;
+            return (T)(IConfiguration)instance;
         }
 
-
+    
+       
     }
 }

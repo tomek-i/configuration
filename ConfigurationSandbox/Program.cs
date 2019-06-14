@@ -38,19 +38,21 @@ namespace ConfigurationSandbox
 
         public static void Main2()
         {
-            var storage = new ConfigurationFileStorage(new JsonSerializer(), ".json", ConfigMode.Test);
+            var fileStorage = new ConfigurationFileStorage(new JsonSerializer(), ".json", ConfigMode.Test);
+            var cachedFileStorage = new ConfigurationStorageCache(TimeSpan.FromSeconds(30), fileStorage);
 
-            var sqlStorage = new ConfigurationSQLStorage<SQLAppConfig>(new WarburnEstateDatabaseFactory().Create(), ConfigMode.Test);
+            var sqlStorage = new SQLConfigStorage(new WarburnEstateDatabaseFactory().Create(), ConfigMode.Test);
+            var cachedSqlStorage = new ConfigurationStorageCache(TimeSpan.FromSeconds(30), sqlStorage);
 
-            //var cachedStore = new ConfigurationStorageCache(TimeSpan.FromSeconds(30), storage);
-            ConfigurationManager.Create(storage);
-            
-            bool exist = ConfigurationManager.Instance.Exist<TestConfig>("TestConfig");
+            var manager = new ConfigurationManager<SQLConfigStorage>(sqlStorage);
+
+            bool exist = false;
             if (!exist)
             {
-                var item = ConfigurationManager.Instance.Load<TestConfig>("TestConfig");
 
-                ConfigurationManager.Instance.Save(new TestConfig().Default());
+                var item = manager.Storage.Get<SQLAppConfig>("TEST");
+                item.Name = "Tomek is cool";
+                manager.Storage.Set(item);
 
 
             }

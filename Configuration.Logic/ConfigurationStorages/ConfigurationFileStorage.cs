@@ -10,118 +10,64 @@ namespace TI.Configuration.Logic
     /// <summary>
     /// File I/O storage of configurations
     /// </summary>
-    public sealed class ConfigurationFileStorage : ConfigurationStorage<IConfiguration>
+    public sealed class ConfigurationFileStorage : IConfigStorage
     {
-        private string _path;
-        private string _fileExtension;
-        private ISerializer _serializer;
+        ISerializer Serializer;
+        string Extension;
+        ConfigMode Mode;
+        string RootPath;
 
-        public ConfigurationFileStorage(ISerializer serializer, string fileExtension, ConfigMode mode, string path = "./config") : base(mode)
+        public ConfigurationFileStorage(
+            ISerializer serializer, string extension, ConfigMode mode, string path = "./config")
         {
-            _serializer = serializer;
-            _path = path;
-            _fileExtension = fileExtension.TrimStart('.');
-
-        }
-        private string getFileLocation(string name)
-        {
-            return Path.Combine(_path, Mode.ToString(), $"{name}.{_fileExtension}");
+            Serializer = serializer;
+            Extension = extension.TrimStart('.');
+            Mode = mode;
+            RootPath = path;
         }
 
-        public override async Task<IConfiguration> GetAsync<T>(string name)
+        public T Get<T>(string name) where T : class,IConfiguration
         {
-            var filepath = getFileLocation(name);
+            string path = GetPath(name);
 
-            if (File.Exists(filepath))
-            {
-                StringBuilder sb = new StringBuilder();
-                using (StreamReader source = File.OpenText(filepath))
-                {
-                    char[] buffer = new char[0x1000];
-                    int numRead;
-
-                    while ((numRead = await source.ReadAsync(buffer, 0, buffer.Length)) != 0)
-                    {
-                        sb.Append(buffer);
-                    }
-                }
-                var content = sb.ToString();
-
-                var config = _serializer.Deserialize<T>(content);
-
-                return config;
-            }
-            else
-            {
-                //TODO: optionally create file with default?
-
-                return null;
-            }
-        }
-        public override IConfiguration Get<T>(string name)
-        {
-            var filepath = getFileLocation(name);
-
-            if (File.Exists(filepath))
+            if (File.Exists(path))
             {
                 StringBuilder sb = new StringBuilder();
                 string content = null;
-                using (StreamReader source = File.OpenText(filepath))
+                using (StreamReader source = File.OpenText(path))
                 {
                     content = source.ReadToEnd();
                 }
-
-                //TODO: this is the bottleneck, wrapping in task caused more overhead
-                T config = _serializer.Deserialize<T>(content); 
-                //T config = Task.Factory.StartNew(() =>
-                //{
-                //    return _serializer.Deserialize<T>(content);
-                //}).GetAwaiter().GetResult();
-
-
+                T config = Serializer.Deserialize<T>(content);
                 return config;
             }
-            else
-            {
-                //TODO: optionally create file with default?
-
-                return null;
-            }
+            return default(T);
         }
-        public override async Task SetAsync(IConfiguration instance)
+
+       
+        public void Set<T>(T instance) where T:class,IConfiguration
         {
-            var filepath = getFileLocation(instance.Name);
-            var content = _serializer.Serialize(instance);
+            string path = GetPath(instance.Name);
+
+            var content = Serializer.Serialize(instance);
 
             try
             {
-                using (TextWriter writer = new StreamWriter(File.Create(filepath)))
-                {
-                    await writer.WriteAsync(content);
-                }
-            }
-            catch (Exception exception)
-            {
-                throw new ConfigurationFileStorageException($"Failed to write configuration async to: {filepath}", exception);
-            }
-        }
-        public override void Set(IConfiguration instance)
-        {
-            var filepath = getFileLocation(instance.Name);
-            var content = _serializer.Serialize(instance);
-            
-            try
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(filepath));
-                using (TextWriter writer = new StreamWriter(File.Create(filepath)))
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                using (TextWriter writer = new StreamWriter(File.Create(path)))
                 {
                     writer.Write(content);
                 }
             }
             catch (Exception exception)
             {
-                throw new ConfigurationFileStorageException($"Failed to write configuration to: {filepath}", exception);
+                throw new ConfigurationFileStorageException($"Failed to write configuration to: {path}", exception);
             }
+        }
+
+        private string GetPath(string name)
+        {
+            return Path.Combine(RootPath, Mode.ToString(), $"{name}.{Extension}");
         }
 
     }
