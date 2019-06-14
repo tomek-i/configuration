@@ -49,15 +49,15 @@ namespace ConfigurationSandbox
             //IMPORTANT: the cached configuration store wont work properly with the SQL storage
             var cachedSqlStorage = new ConfigurationStorageCache<SQLConfigStorage>(TimeSpan.FromSeconds(30), sqlStorage);
 
-            var manager = new ConfigurationManager<ConfigurationFileStorage>(fileStorage);
+            var manager = new ConfigurationManager<SQLConfigStorage>(sqlStorage);
 
             bool exist = false;
             if (!exist)
             {
 
-                var test = manager.Storage.Get<TestConfig>("Line 1 Packaging");
+                var test = manager.Storage.Get<SQLAppConfig>("L1QA");
                 if (test == null)
-                    manager.Storage.Set(new TestConfig("Line 1 Packaging"));
+                    manager.Storage.Set(new SQLAppConfig("Line 1 Packaging"));
 
             }
 
