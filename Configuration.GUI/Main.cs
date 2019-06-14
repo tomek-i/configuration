@@ -34,8 +34,9 @@ namespace Configuration.GUI
         {
             
             flowLayoutPanel1.SuspendLayout();
-            var settings = ((SQLAppConfig)sQLAppConfigBindingSource.Current).Settings;
-            
+            var currentCfg = (SQLAppConfig)sQLAppConfigBindingSource.Current;
+            var settings = (currentCfg).Settings;
+            textBoxCode.Text = currentCfg.Code;
             List<Control> controls = new List<Control>();
             foreach (var setting in settings)
             {

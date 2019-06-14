@@ -49,15 +49,17 @@ namespace Configuration.GUI
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.sQLAppConfigBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.sQLAppConfigListBox = new System.Windows.Forms.ListBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cloneConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonSaveAll = new System.Windows.Forms.Button();
             this.buttonAddNewSetting = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cloneConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonCloneToMode = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.buttonToggle = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxCode = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.sQLAppConfigBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sQLAppConfigBindingNavigator)).BeginInit();
             this.sQLAppConfigBindingNavigator.SuspendLayout();
@@ -218,6 +220,20 @@ namespace Configuration.GUI
             this.sQLAppConfigListBox.TabIndex = 1;
             this.sQLAppConfigListBox.ValueMember = "Created";
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cloneConfigToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(145, 26);
+            // 
+            // cloneConfigToolStripMenuItem
+            // 
+            this.cloneConfigToolStripMenuItem.Name = "cloneConfigToolStripMenuItem";
+            this.cloneConfigToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.cloneConfigToolStripMenuItem.Text = "Clone Config";
+            this.cloneConfigToolStripMenuItem.Click += new System.EventHandler(this.cloneConfigToolStripMenuItem_Click);
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -260,20 +276,6 @@ namespace Configuration.GUI
             this.comboBox1.TabIndex = 5;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cloneConfigToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(145, 26);
-            // 
-            // cloneConfigToolStripMenuItem
-            // 
-            this.cloneConfigToolStripMenuItem.Name = "cloneConfigToolStripMenuItem";
-            this.cloneConfigToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.cloneConfigToolStripMenuItem.Text = "Clone Config";
-            this.cloneConfigToolStripMenuItem.Click += new System.EventHandler(this.cloneConfigToolStripMenuItem_Click);
-            // 
             // buttonCloneToMode
             // 
             this.buttonCloneToMode.Enabled = false;
@@ -304,11 +306,30 @@ namespace Configuration.GUI
             this.buttonToggle.UseVisualStyleBackColor = true;
             this.buttonToggle.Click += new System.EventHandler(this.buttonToggle_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(892, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "CODE:";
+            // 
+            // textBoxCode
+            // 
+            this.textBoxCode.Location = new System.Drawing.Point(895, 35);
+            this.textBoxCode.Name = "textBoxCode";
+            this.textBoxCode.ReadOnly = true;
+            this.textBoxCode.Size = new System.Drawing.Size(117, 20);
+            this.textBoxCode.TabIndex = 11;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 629);
+            this.Controls.Add(this.textBoxCode);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonToggle);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.buttonCloneToMode);
@@ -358,6 +379,8 @@ namespace Configuration.GUI
         private System.Windows.Forms.Button buttonCloneToMode;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Button buttonToggle;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBoxCode;
     }
 }
 
