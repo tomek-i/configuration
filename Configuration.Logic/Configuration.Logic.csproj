@@ -63,6 +63,11 @@
     <Compile Include="Abstracts\ConfigurationStorage.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Interfaces\INeedConfigUpdates.cs" />
+    <Compile Include="Obsolete\ConfigurationManager.cs" />
+    <Compile Include="Obsolete\ConfigurationManagerBase.cs" />
+    <Compile Include="Obsolete\IConfigurationManager.cs" />
+    <Compile Include="Obsolete\IConfigurationManagerBase.cs" />
+    <Compile Include="Obsolete\IConfigurationStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

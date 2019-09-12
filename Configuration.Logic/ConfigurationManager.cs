@@ -5,6 +5,7 @@ using System.Windows.Forms;
 
 namespace TI.Configuration.Logic
 {
+    
     /// <summary>
     /// Configuration Manager, you have to call <c>ConfigurationManager.Create()</c> first.
     /// TODO: maybe there is a better solution to the usage of this
