@@ -19,9 +19,9 @@ namespace Configuration.SQL
             
         }
      
-        public new void Set<T>(T instance) where T:SQLAppConfig
+        public new T Set<T>(T instance) where T:SQLAppConfig
         {
-            base.Set(instance);
+            return base.Set(instance);
             //if (!_context.Set<T>().Any(x => x.Code == instance.Code))
             //{
             //    _context.Set<T>().Add(instance);
@@ -43,9 +43,13 @@ namespace Configuration.SQL
             //}
             //return (T)instance;
         }
-       
+
+        public void Save()
+        {
+            this._context.SaveChanges();
+        }
     }
-    public class SQLStorage<TContext> : IConfigStorage  where TContext : DbContext
+    public class SQLStorage<TContext> : TI.Configuration.Logic.DbContext  where TContext : System.Data.Entity.DbContext
     {
         protected TContext _context;
 
@@ -54,7 +58,7 @@ namespace Configuration.SQL
             _context = context;
         }
        
-        public void Set<T>(T instance) where T : class, IConfiguration
+        public T Set<T>(T instance) where T : class, IConfiguration
         {
             if (!_context.Set<T>().Any(x => x.Code == instance.Code))
             {
@@ -65,14 +69,18 @@ namespace Configuration.SQL
                 // no need, if you update the instance and call set with the instance, it will update
             }
             _context.SaveChanges();
+            return instance;
         }
         public T Get<T>(string name, Expression<Func<T, object>> include) where T : class, IConfiguration
         {
-            return  _context.Set<T>().Include(include).Where(x => x.Code == name).SingleOrDefault();
+            var code = name.ToUpper().Replace(" ", "");
+            return  _context.Set<T>().Include(include).Where(x => x.Code == code).SingleOrDefault();
         }
         public T Get<T>(string name) where T : class,IConfiguration
         {
-            var instance = _context.Set<T>().Where(x => x.Code == name).SingleOrDefault();
+            //return Get<T>(name,x=>x.se)
+            var code = name.ToUpper().Replace(" ", "");
+            var instance = _context.Set<T>().Where(x => x.Code == code).SingleOrDefault();
             return instance;
         }
 

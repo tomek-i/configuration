@@ -1,7 +1,10 @@
-﻿using TI.Configuration.Logic;
+﻿using System;
+using System.Xml.Serialization;
+using TI.Configuration.Logic;
 
 namespace Configuration.SQL
 {
+    [Serializable]
     public class SQLAppConfigSetting
     {
         public int Id { get; internal set; }
@@ -13,6 +16,7 @@ namespace Configuration.SQL
 
         #region Navigation Property
         public int AppConfigId { get; set; }
+        [XmlIgnore, System.Runtime.Serialization.IgnoreDataMember]
         public SQLAppConfig Config { get; set; }
         #endregion
 
@@ -26,6 +30,8 @@ namespace Configuration.SQL
             Name = name;
             Value = value;
             Mode = mode;
+            Code = "";
+            Description = "";
         }
     }
 }

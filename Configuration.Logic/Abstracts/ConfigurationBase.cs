@@ -9,7 +9,7 @@ namespace TI.Configuration.Logic.Abstracts
     [DebuggerDisplay("{Name}")]
     public abstract class ConfigurationBase : PropertyChangedNotificationClass, IConfiguration
     {
-        public string Name { get; protected set; }
+        public string Name { get; set; }
         public DateTime Created { get; }
 
         public string Code { get; set; }

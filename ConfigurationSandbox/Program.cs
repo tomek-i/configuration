@@ -17,6 +17,10 @@ namespace ConfigurationSandbox
         public int ConfigB { get; set; }
         public bool ConfigC { get; set; }
 
+        public TestConfig():base(null)
+        {
+
+        }
         public TestConfig(string name):base(name)
         {
 
@@ -31,6 +35,7 @@ namespace ConfigurationSandbox
             };
         }
     }
+
     class Program
     {
 
@@ -50,14 +55,26 @@ namespace ConfigurationSandbox
             var cachedSqlStorage = new ConfigurationStorageCache<SQLConfigStorage>(TimeSpan.FromSeconds(30), sqlStorage);
 
             var manager = new ConfigurationManager<SQLConfigStorage>(sqlStorage);
+            var manager2 = new ConfigurationManager<ConfigurationFileStorage>(fileStorage);
 
+
+
+            var sqlc = manager.Storage.Get<SQLAppConfig>("Line 1 Packaging");
+            manager2.Storage.Set<SQLAppConfig>(sqlc);
+           var abctest =  manager2.Storage.Get<SQLAppConfig>();
             bool exist = false;
             if (!exist)
             {
 
-                var test = manager.Storage.Get<SQLAppConfig>("L1QA");
+                var test = manager.Storage.Get<SQLAppConfig>("Line 1 Packaging");
                 if (test == null)
-                    manager.Storage.Set(new SQLAppConfig("Line 1 Packaging"));
+                {
+                    test = manager.Storage.Set(new SQLAppConfig("Line 1 Packaging"));
+                   
+                }
+                test.Add(new SQLAppConfigSetting("test2", "3", ConfigMode.Default));
+                manager.Storage.Save();
+
 
             }
 

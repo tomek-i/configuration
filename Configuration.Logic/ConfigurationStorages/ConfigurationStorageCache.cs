@@ -9,7 +9,7 @@ namespace TI.Configuration.Logic
     /// <summary>
     /// Wraps a storage around a cache 
     /// </summary>
-    public sealed class ConfigurationStorageCache<TStore> : IConfigStorage where TStore: IConfigStorage
+    public sealed class ConfigurationStorageCache<TStore> : DbContext where TStore: DbContext
     {
         public TStore Storage { get; private set; }
         private Dictionary<IConfiguration, DateTime> Cache;
@@ -84,7 +84,7 @@ namespace TI.Configuration.Logic
             Cache.Add(instance, DateTime.Now);
         }
 
-        public void Set<T>(T instance) where T : class,IConfiguration
+        public T Set<T>(T instance) where T : class,IConfiguration
         {
             var chached = Cache.Where(x => x.Key is T && x.Key.Name == instance.Name).Select(x => x.Key).SingleOrDefault();
             if (chached != null)
@@ -92,6 +92,7 @@ namespace TI.Configuration.Logic
 
             Storage.Set(instance);
             Add(instance);
+            return instance;
         }
     }
 }

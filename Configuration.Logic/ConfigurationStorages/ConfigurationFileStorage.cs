@@ -10,7 +10,7 @@ namespace TI.Configuration.Logic
     /// <summary>
     /// File I/O storage of configurations
     /// </summary>
-    public sealed class ConfigurationFileStorage : IConfigStorage
+    public sealed class ConfigurationFileStorage : DbContext
     {
         ISerializer Serializer;
         string Extension;
@@ -25,8 +25,11 @@ namespace TI.Configuration.Logic
             Mode = mode;
             RootPath = path;
         }
-
-        public T Get<T>(string name) where T : class,IConfiguration
+        public T Get<T>() where T : class, IConfiguration,new()
+        {
+            return Get<T>(new T().Name);
+        }
+        public T Get<T>(string name="") where T : class,IConfiguration
         {
             string path = GetPath(name);
 
@@ -39,13 +42,14 @@ namespace TI.Configuration.Logic
                     content = source.ReadToEnd();
                 }
                 T config = Serializer.Deserialize<T>(content);
+                //config.Name = name;
                 return config;
             }
             return default(T);
         }
 
        
-        public void Set<T>(T instance) where T:class,IConfiguration
+        public T Set<T>(T instance) where T:class,IConfiguration
         {
             string path = GetPath(instance.Name);
 
@@ -63,6 +67,7 @@ namespace TI.Configuration.Logic
             {
                 throw new ConfigurationFileStorageException($"Failed to write configuration to: {path}", exception);
             }
+            return instance;
         }
 
         private string GetPath(string name)
