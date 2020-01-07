@@ -216,7 +216,7 @@ namespace TI.Configuration.Obsolete
         {
             string filepath = instance.CreateDirectoryIfNotExist();
 
-            var serialized = Serializer.Serialize(instance);
+            var serialized = Serializer.Serialize(instance,Newtonsoft.Json.Formatting.Indented,null);
 
 
             lock (_writeLock)
