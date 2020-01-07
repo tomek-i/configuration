@@ -294,9 +294,9 @@ namespace TI.Configuration.Obsolete
         }
         private void ConfigChanged<T>(T instance) where T : ConfigurationBase
         {
-            var key = Watchers.Keys.Single(x => x.Name == instance.GetType().Name);
-
-            foreach (var item in Watchers[instance.GetType()])
+            var key = Watchers.Keys.SingleOrDefault(x => x.Name == instance.GetType().Name);
+            if (key == null) return;
+            foreach (var item in Watchers[key])
             {
                 item.OnConfigurationUpdate(instance);
             }
