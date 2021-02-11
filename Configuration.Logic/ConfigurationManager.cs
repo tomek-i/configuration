@@ -1,11 +1,10 @@
-using TI.Configuration.Logic.Interfaces;
-using System.Threading.Tasks;
 using System;
 using System.Windows.Forms;
+using TI.Configuration.Logic.Interfaces;
 
 namespace TI.Configuration.Logic
 {
-    
+
     /// <summary>
     /// Configuration Manager, you have to call <c>ConfigurationManager.Create()</c> first.
     /// TODO: maybe there is a better solution to the usage of this

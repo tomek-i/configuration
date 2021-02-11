@@ -1,8 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Forms;
 using TI.Configuration.Logic.Interfaces;
-using TI.Configuration.Logic.Abstracts;
 
 namespace TI.Configuration.Logic
 {
@@ -11,7 +9,7 @@ namespace TI.Configuration.Logic
     /// which represents the configuration
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class ConfigurationDisplayBase<T>:UserControl where T:class,IConfiguration
+    public abstract class ConfigurationDisplayBase<T> : UserControl where T : class, IConfiguration
     {
         //private static ConfigurationManager configManager;
 
@@ -19,7 +17,7 @@ namespace TI.Configuration.Logic
 
         //public static void Initialize(ConfigurationManager manager)
         //{
-       //     configManager = manager;
+        //     configManager = manager;
         //}
 
         protected override void OnLoad(EventArgs e)
@@ -31,19 +29,19 @@ namespace TI.Configuration.Logic
 
         public virtual void SaveConfiguration()
         {
-          //  configManager.Save(cfg);
+            //  configManager.Save(cfg);
         }
-        public virtual void LoadConfiguration(T instance=null)
+        public virtual void LoadConfiguration(T instance = null)
         {
-            if(instance==null)
+            if (instance == null)
             {
-               // cfg = (T)configManager.Load<T>(instance.Name);
+                // cfg = (T)configManager.Load<T>(instance.Name);
             }
             else
             {
                 cfg = instance;
             }
         }
-       
+
     }
 }

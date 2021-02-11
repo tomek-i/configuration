@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using TI.Configuration.Logic;
 using TI.Configuration.Logic.Abstracts;
@@ -14,7 +13,7 @@ namespace Configuration.SQL
         //public string Code { get; set; }
 
         public ICollection<SQLAppConfigSetting> Settings { get; private set; }
-        public SQLAppConfig():this("SQLAppConfig")
+        public SQLAppConfig() : this("SQLAppConfig")
         {
             Settings = new List<SQLAppConfigSetting>();
         }
@@ -26,8 +25,8 @@ namespace Configuration.SQL
         }
         public void Add(SQLAppConfigSetting setting)
         {
-            var existing = Settings.SingleOrDefault(x => x.Name == setting.Name && setting.Mode == x.Mode);
-            if(existing!=null)
+            SQLAppConfigSetting existing = Settings.SingleOrDefault(x => x.Name == setting.Name && setting.Mode == x.Mode);
+            if (existing != null)
             {
                 existing.Value = setting.Value;
             }
@@ -38,15 +37,15 @@ namespace Configuration.SQL
             }
 
         }
-      
+
         public override IConfiguration Default()
         {
             return null;
         }
 
-        public List<KeyValuePair<string,ConfigMode>> Get(string key)
+        public List<KeyValuePair<string, ConfigMode>> Get(string key)
         {
-            return Settings.Where(x => x.Code == key.ToUpper()).Select(x=> new KeyValuePair<string,ConfigMode>(x.Value, x.Mode)).ToList();
+            return Settings.Where(x => x.Code == key.ToUpper()).Select(x => new KeyValuePair<string, ConfigMode>(x.Value, x.Mode)).ToList();
         }
 
         public string Get(string key, ConfigMode mode)

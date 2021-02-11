@@ -4,9 +4,8 @@ namespace Configuration.SQL
 {
     public class WarburnEstateDatabaseFactory : IDbContextFactory<ConfigurationContext>
     {
-
-        const string DatabaseNameDevelopment = "Development";
-        const string DatabaseNameLive = "WarburnEstate";
+        private const string DatabaseNameDevelopment = "Development";
+        private const string DatabaseNameLive = "WarburnEstate";
 
         #region Implementation of IDbContextFactory<out WarburnDatabaseContext>
 
@@ -24,9 +23,13 @@ namespace Configuration.SQL
         public static ConfigurationContext Create(string nameOrConnectionString)
         {
             if (string.IsNullOrWhiteSpace(nameOrConnectionString))
+            {
                 return new WarburnEstateDatabaseFactory().Create();
+            }
             else
+            {
                 return new ConfigurationContext(nameOrConnectionString);
+            }
         }
 
 

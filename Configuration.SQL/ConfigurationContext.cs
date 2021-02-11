@@ -16,7 +16,7 @@ namespace Configuration.SQL
 
         public ConfigurationContext(string nameOrConnectionString) : base(nameOrConnectionString)
         {
-            var ensureDLLIsCopied = SqlProviderServices.Instance;
+            SqlProviderServices ensureDLLIsCopied = SqlProviderServices.Instance;
             Configuration.LazyLoadingEnabled = false;
         }
 
@@ -60,12 +60,12 @@ namespace Configuration.SQL
             }
             catch (DbEntityValidationException ex)
             {
-                var sb = new StringBuilder();
+                StringBuilder sb = new StringBuilder();
 
-                foreach (var failure in ex.EntityValidationErrors)
+                foreach (DbEntityValidationResult failure in ex.EntityValidationErrors)
                 {
                     sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
-                    foreach (var error in failure.ValidationErrors)
+                    foreach (DbValidationError error in failure.ValidationErrors)
                     {
                         sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
                         sb.AppendLine();

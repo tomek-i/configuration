@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Reflection;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace TI.Configuration.Logic
 {

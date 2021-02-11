@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TI.Configuration.Logic;
 using TI.Configuration.Logic.Abstracts;
@@ -18,7 +16,7 @@ namespace TI.Configuration.Obsolete
 
     public static class ConfigurationExtensions
     {
-        
+
         public static bool IsInternalConfiguration(this IConfiguration config)
         {
             return config.GetType().GetCustomAttribute(typeof(InternalConfigurationAttribute)) != null;
@@ -42,11 +40,17 @@ namespace TI.Configuration.Obsolete
 
         public static string CreateDirectoryIfNotExist(this IConfiguration cfg)
         {
-            var path = cfg.GetFilePath();
-            var directoryName = Path.GetDirectoryName(path);
-            if (Directory.Exists(directoryName)) return Path.Combine(path);
+            string path = cfg.GetFilePath();
+            string directoryName = Path.GetDirectoryName(path);
+            if (Directory.Exists(directoryName))
+            {
+                return Path.Combine(path);
+            }
+
             if (directoryName != null)
+            {
                 Directory.CreateDirectory(directoryName);
+            }
 
             return path;
         }
@@ -54,11 +58,11 @@ namespace TI.Configuration.Obsolete
         public static string GetFilePath(this IConfiguration cfg)
         {
             string path, filename;
-            var config = cfg as MasterConfig;
+            MasterConfig config = cfg as MasterConfig;
             MasterConfig masterCfg = config ?? ConfigurationManager.Instance.Read<MasterConfig>();
             if (cfg.IsInternalConfiguration())
             {
-                var internalCfg = cfg.GetInternalConfig();
+                InternalConfigurationAttribute internalCfg = cfg.GetInternalConfig();
                 filename = $"{internalCfg.FilePrefix}{cfg.Name}.json";
                 path = Path.Combine(MasterConfig.ConfigDirectory, internalCfg.Foldername);
             }
@@ -99,17 +103,14 @@ namespace TI.Configuration.Obsolete
 
         private string _modeName;
 
-        public MasterConfig():base(null)
+        public MasterConfig() : base(null)
         {
 
         }
         public string ModeName
         {
-            get { return _modeName?.ToLowerInvariant(); }
-            set
-            {
-                SetValue(nameof(ModeName), ref _modeName, ref value, () => { /*(De-)Serialize again? or call UI updates?*/ });
-            }
+            get => _modeName?.ToLowerInvariant();
+            set => SetValue(nameof(ModeName), ref _modeName, ref value, () => { /*(De-)Serialize again? or call UI updates?*/ });
         }
 
 
@@ -127,9 +128,8 @@ namespace TI.Configuration.Obsolete
     }
     public sealed class ConfigurationManager : IConfigurationManager//ConfigurationManagerBase
     {
-        ReaderWriterLock rwl = new ReaderWriterLock();
-
-        static readonly object _writeLock = new object();
+        private readonly ReaderWriterLock rwl = new ReaderWriterLock();
+        private static readonly object _writeLock = new object();
         private static readonly IDictionary<Type, ISet<INeedConfigUpdates>> Watchers;
         private static readonly JsonSerializer Serializer;
         private static ConfigurationManager _instance;
@@ -174,9 +174,11 @@ namespace TI.Configuration.Obsolete
         /// <param name="watcher">the object which needs to be notified.</param>
         public void AddWatcher<T>(INeedConfigUpdates watcher) where T : IConfiguration
         {
-            var t = typeof(T);
+            Type t = typeof(T);
             if (!Watchers.ContainsKey(t))
+            {
                 Watchers.Add(t, new HashSet<INeedConfigUpdates>());
+            }
 
             Watchers[t].Add(watcher);
         }
@@ -192,7 +194,7 @@ namespace TI.Configuration.Obsolete
         }
         public T Update<T>(Action<T> exp) where T : class, IConfiguration
         {
-            var cfg = Read<T>();
+            T cfg = Read<T>();
 
             exp.Invoke(cfg);
             rwl.AcquireWriterLock(TimeSpan.FromSeconds(1));
@@ -216,7 +218,7 @@ namespace TI.Configuration.Obsolete
         {
             string filepath = instance.CreateDirectoryIfNotExist();
 
-            var serialized = Serializer.Serialize(instance,Newtonsoft.Json.Formatting.Indented,null);
+            string serialized = Serializer.Serialize(instance, Newtonsoft.Json.Formatting.Indented, null);
 
 
             lock (_writeLock)
@@ -224,7 +226,7 @@ namespace TI.Configuration.Obsolete
                 int attempts = 1;
                 rwl.AcquireWriterLock(TimeSpan.FromSeconds(1));
 
-                RETRY:
+            RETRY:
                 try
                 {
                     using (TextWriter writer = new StreamWriter(File.Create(filepath)))
@@ -294,27 +296,33 @@ namespace TI.Configuration.Obsolete
         }
         private void ConfigChanged<T>(T instance) where T : ConfigurationBase
         {
-            var key = Watchers.Keys.SingleOrDefault(x => x.Name == instance.GetType().Name);
-            if (key == null) return;
-            foreach (var item in Watchers[key])
+            Type key = Watchers.Keys.SingleOrDefault(x => x.Name == instance.GetType().Name);
+            if (key == null)
+            {
+                return;
+            }
+
+            foreach (INeedConfigUpdates item in Watchers[key])
             {
                 item.OnConfigurationUpdate(instance);
             }
         }
         private object Read(IConfiguration instance)
         {
-            var filepath = instance.GetFilePath();
+            string filepath = instance.GetFilePath();
             if (File.Exists(filepath))
             {
-                var content = File.ReadAllText(filepath);
-                var loadedCfg = (IConfiguration)Serializer.Deserialize(content, instance.GetType());
-                var configurationBase = loadedCfg as ConfigurationBase;
+                string content = File.ReadAllText(filepath);
+                IConfiguration loadedCfg = (IConfiguration)Serializer.Deserialize(content, instance.GetType());
+                ConfigurationBase configurationBase = loadedCfg as ConfigurationBase;
 
                 if (configurationBase != null)
+                {
                     configurationBase.PropertyChanged += (sender, property) =>
                     {
                         ConfigChanged(configurationBase);
                     };
+                }
 
                 return loadedCfg;
             }

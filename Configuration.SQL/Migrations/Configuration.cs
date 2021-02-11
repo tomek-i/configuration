@@ -1,10 +1,7 @@
 namespace TI.Configuration.SQL.Migrations
 {
     using global::Configuration.SQL;
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ConfigurationContext>
     {

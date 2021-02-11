@@ -1,8 +1,7 @@
 namespace TI.Configuration.SQL.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class added_keys : DbMigration
     {
         public override void Up()
@@ -22,7 +21,7 @@ namespace TI.Configuration.SQL.Migrations
             AddForeignKey("dbo.SQLAppConfigSettings", "AppConfigId", "dbo.SQLAppConfigs", "Id", cascadeDelete: true);
             DropColumn("dbo.SQLAppConfigSettings", "Key");
         }
-        
+
         public override void Down()
         {
             AddColumn("dbo.SQLAppConfigSettings", "Key", c => c.String(nullable: false, maxLength: 128));

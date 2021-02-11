@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using TI.Configuration.Logic.Interfaces;
-using System.Threading.Tasks;
 using System.Text;
+using TI.Configuration.Logic.Interfaces;
 using TI.Serializer.Logic.API;
 
 namespace TI.Configuration.Logic
@@ -12,10 +11,10 @@ namespace TI.Configuration.Logic
     /// </summary>
     public sealed class ConfigurationFileStorage : DbContext
     {
-        ISerializer Serializer;
-        string Extension;
-        ConfigMode Mode;
-        string RootPath;
+        private readonly ISerializer Serializer;
+        private readonly string Extension;
+        private readonly ConfigMode Mode;
+        private readonly string RootPath;
 
         public ConfigurationFileStorage(
             ISerializer serializer, string extension, ConfigMode mode, string path = "./config")
@@ -25,11 +24,11 @@ namespace TI.Configuration.Logic
             Mode = mode;
             RootPath = path;
         }
-        public T Get<T>() where T : class, IConfiguration,new()
+        public T Get<T>() where T : class, IConfiguration, new()
         {
             return Get<T>(new T().Name);
         }
-        public T Get<T>(string name="") where T : class,IConfiguration
+        public T Get<T>(string name = "") where T : class, IConfiguration
         {
             string path = GetPath(name);
 
@@ -48,12 +47,12 @@ namespace TI.Configuration.Logic
             return default(T);
         }
 
-       
-        public T Set<T>(T instance) where T:class,IConfiguration
+
+        public T Set<T>(T instance) where T : class, IConfiguration
         {
             string path = GetPath(instance.Name);
 
-            var content = Serializer.Serialize(instance);
+            string content = Serializer.Serialize(instance);
 
             try
             {
